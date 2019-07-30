@@ -1,11 +1,15 @@
 #include "rtos.h"
 
-#define  NVIC_INT_CTRL      0xE000Ed04 //PendSV中断控制器地址
-#define  NVIC_PENDSV_SET    0x10000000 //触发PendSV
-#define  NVIC_SYSPRI2       0xE000Ed22 //PendSV优先级控制地址
-#define  NVIC_PENDSV_PRI    0x000000ff //PendSV设置为最低优先值255
+//PendSV中断控制器地址
+#define  NVIC_INT_CTRL      0xE000Ed04 
+//触发PendSV
+#define  NVIC_PENDSV_SET    0x10000000 
+//PendSV优先级控制地址
+#define  NVIC_SYSPRI2       0xE000Ed22 
+//PendSV设置为最低优先值255
+#define  NVIC_PENDSV_PRI    0x000000ff 
 
-
+//关闭全局中断
 __asm void ygos_interrupt_disable(void)
 {
     EXPORT  ygos_interrupt_disable
@@ -15,13 +19,13 @@ __asm void ygos_interrupt_disable(void)
     BX      LR
 }
 
+//使能全局中断
 __asm void  ygos_interrupt_enable(int level)
 {
     EXPORT  ygos_interrupt_enable
     MSR     PRIMASK, r0
     BX      LR
 }
-
 
 //PendSV_Handler异常处理
 __asm void PendSV_Handler(void)
@@ -83,6 +87,7 @@ OS_CPU_PendSVHandler_nosave
     BX      LR                                                 
 }
 
+//os初始化第一次任务调度
 __asm void ygos_start_high_ready(void)
 {
 	IMPORT ygos_os_runing
@@ -109,6 +114,7 @@ __asm void ygos_start_high_ready(void)
 	BX LR
 }
 
+//触发pendsv完成任务切换
 __asm void os_task_switch(void)
 {   
 	EXPORT  os_task_switch
