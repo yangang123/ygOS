@@ -150,7 +150,10 @@ void ygos_task_ready_delete(int prio)
 
 //进入中断服务程序，此函数被调用，更新中断嵌套的级别
 void ygos_interrupt_enter(void)
-{
+{   
+	if (!ygos_os_runing){
+		return;
+	}
     int level;
     
 	//ygos支持中断嵌套,
@@ -161,7 +164,11 @@ void ygos_interrupt_enter(void)
 
 //中断退出，任务切换一次，和ygos_interrupt_enter进行配对使用
 void ygos_interrupt_leave(void)
-{
+{   
+	if (!ygos_os_runing){
+		return;
+	}
+
     int  level;
 
 	ygos_interrupt_disable();
@@ -207,7 +214,7 @@ void  ygos_sche (void)
 
 //定时器周期查询就绪任务队列中的最高优先级是否发生变化
 void ygos_timer_sche(void)
-{
+{   
     struct tcb_s    *ptcb;
     int level;
 	
@@ -216,6 +223,10 @@ void ygos_timer_sche(void)
 	ygos_tick++;
 	ygos_interrupt_enable(level);
     
+	if (!ygos_os_runing){
+		return;
+	}
+
 	//从tcb list的指针ygos_tcb_list的头部进行遍历所有的激活的任务
 	ptcb = ygos_tcb_list;                                  
 	while (ptcb->prio != IDLE_TASK_PRIO) {     
