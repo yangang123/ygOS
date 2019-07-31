@@ -12,6 +12,9 @@
 //任务最高数量是32个
 #define TASK_NUM_TOTAL_NUM                32
 
+//空闲任务堆栈设置  
+#define IDLE_TASK_STACK_SIZE              128
+
 struct tcb_s
 {  
 	//栈地址
@@ -91,5 +94,11 @@ void ygos_sleep_tick (int32_t ticks);
 
 //ygos获取系统tick
 uint32_t ygos_get_tick(void);
+
+//空闲任务创建
+void ygos_idle_task_init(void);
+
+
+
 
 #endif 

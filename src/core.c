@@ -1,20 +1,49 @@
 
 #include "rtos.h"
 
+//当前执行的任务
+struct tcb_s *ygos_tcb_current; 
 
-struct tcb_s *ygos_tcb_current;                          
-struct tcb_s *ygos_tcb_high_ready;      
+//最高优先级的就绪任务                         
+struct tcb_s *ygos_tcb_high_ready;  
+
+//空闲的任务链表    
 struct tcb_s *ygos_tcb_free_list; 
-struct tcb_s *ygos_tcb_list;                    
+
+//激活任务链表
+struct tcb_s *ygos_tcb_list;       
+
+//任务内存空间
 struct tcb_s tcb_table[TASK_NUM_MAX];
+
+//保存任务的内存地址
 struct tcb_s *tcb_prio_table[TASK_NUM_TOTAL_NUM];
+
+//就就绪表的最高优先级
+uint8_t ygos_prio_hig_ready;
+
+//当前执行的就绪任务的优先级
+uint8_t ygos_prio_current; 
+
+//中断嵌套级别
+volatile int ygos_interrupt_nest;
+
+//指示os是否启动,启动后ysos_os_runing=1
+uint8_t ygos_os_runing = 0;
+
+//所有任务就绪状态
 static uint32_t task_ready_value = 0;
+
+//系统时钟ticks
 static uint32_t ygos_tick = 0;
 
-uint8_t ygos_prio_hig_ready;
-uint8_t ygos_prio_current; 
-volatile int ygos_interrupt_nest;
-uint8_t ygos_os_runing = 0;
+
+//触发任务切换
+extern __asm void os_task_switch(void);
+
+//第一次触发任务启动，在系统启动的时候调用
+extern __asm void ygos_start_high_ready(void);
+
 
 //任务堆栈初始胡xPSP, PC, LR, R......
 static uint32_t *ygos_task_stack_init (void (*task)(void *p_arg), void *p_arg, uint32_t *ptos, int16_t opt)
@@ -49,7 +78,7 @@ static uint32_t *ygos_task_stack_init (void (*task)(void *p_arg), void *p_arg, u
     return (stk);
 }
 
-// 1. 创建任务到任务链表中
+// 创建任务到任务链表中
 void  ygos_tcb_create (int prio, void (*task)(void *p_arg), void *p_arg, uint32_t  *ptos)                 
 {  
     struct tcb_s    *ptcb;
@@ -216,8 +245,8 @@ uint32_t ygos_get_tick(void)
 	ygos_interrupt_disable();
 	ticks = ygos_tick;
 	ygos_interrupt_enable(level);
-
-	return ygos_tick;
+	
+	return ticks;
 }
 
 //ygos启动
@@ -246,6 +275,6 @@ void  ygos_init (void)
 		ygos_tcb_list_init();
 
 		//空闲任务初始化,空闲任务一直处于就绪状态，优先级最低
-		idle_task_init();
+		ygos_idle_task_init();
 	}
 }

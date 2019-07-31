@@ -84,7 +84,10 @@ OS_CPU_PendSVHandler_nosave
     
     //打开中断	
     CPSIE   I
-    BX      LR                                                 
+    BX      LR  
+	
+	//防止编译出现警告信息
+    NOP	
 }
 
 //os初始化第一次任务调度
@@ -112,17 +115,22 @@ __asm void ygos_start_high_ready(void)
     STR     R1, [R0]
 	   
 	BX LR
+	
+	//防止编译出现警告信息
+	NOP
 }
 
 //触发pendsv完成任务切换
 __asm void os_task_switch(void)
 {   
-	EXPORT  os_task_switch
 	//触发pensv异常
     LDR     R0, =NVIC_INT_CTRL                              
     LDR     R1, =NVIC_PENDSV_SET
     STR     R1, [R0] 
     BX      LR
+	
+	//防止编译出现警告信息
+	NOP
 }
 
 
