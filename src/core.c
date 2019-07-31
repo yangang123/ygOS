@@ -32,7 +32,7 @@ volatile int ygos_interrupt_nest;
 uint8_t ygos_os_runing = 0;
 
 //所有任务就绪状态
-static uint32_t task_ready_value = 0;
+ uint32_t task_ready_value = 0;
 
 //系统时钟ticks
 static uint32_t ygos_tick = 0;

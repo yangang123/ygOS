@@ -407,12 +407,12 @@
             <File>
               <FileName>main.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\sample\main.c</FilePath>
+              <FilePath>..\sample\mdk_sim\main.c</FilePath>
             </File>
             <File>
               <FileName>systick.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\sample\systick.c</FilePath>
+              <FilePath>..\sample\mdk_sim\systick.c</FilePath>
             </File>
           </Files>
         </Group>
