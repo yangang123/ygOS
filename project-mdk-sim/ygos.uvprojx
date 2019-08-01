@@ -335,7 +335,7 @@
               <MiscControls></MiscControls>
               <Define></Define>
               <Undefine></Undefine>
-              <IncludePath>..\src</IncludePath>
+              <IncludePath>..\src;..\sample\mdk_sim</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -399,20 +399,25 @@
               <FileType>1</FileType>
               <FilePath>..\src\sleep.c</FilePath>
             </File>
+            <File>
+              <FileName>sem.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\src\sem.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
           <GroupName>sample</GroupName>
           <Files>
             <File>
-              <FileName>main.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\sample\mdk_sim\main.c</FilePath>
-            </File>
-            <File>
               <FileName>systick.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\sample\mdk_sim\systick.c</FilePath>
+            </File>
+            <File>
+              <FileName>sem_test.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\sample\sem_test.c</FilePath>
             </File>
           </Files>
         </Group>

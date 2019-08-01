@@ -234,6 +234,18 @@ void ygos_timer_sche(void)
 		if (ptcb->sleep_tick != 0u) {                    
 			ptcb->sleep_tick--;                         
 			if (ptcb->sleep_tick == 0u) {
+                
+				//任务处于等待资源状态
+				if (ptcb->status != TASK_READY_RUN) {
+
+					//任务状态修改成运行态
+					ptcb->status = TASK_READY_RUN;
+                     
+					ptcb->wait_status = WAIT_TIMEOUT;
+				} else {
+					ptcb->wait_status = WAIT_OK;
+				}
+                 
 				//ptcb指向的任务的状态从未就绪修改成就绪
 				ygos_task_ready_add(ptcb->prio);                
 				//在就绪列表中获取最高优先级任务

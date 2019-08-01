@@ -15,6 +15,21 @@
 //空闲任务堆栈设置  
 #define IDLE_TASK_STACK_SIZE              128
 
+//任务处于就绪状态 
+#define TASK_READY_RUN                   0x0
+
+//任务状态位等待信号量 
+#define TASK_WAIT_SEM                    0x01
+
+//资源等待状态正常
+#define WAIT_OK                          0x00
+
+//资源等待状态超时
+#define WAIT_TIMEOUT                     0x01
+
+//信号量资源最大数量
+#define SEM_VALUE_MAX                      10
+
 struct tcb_s
 {  
 	//栈地址
@@ -29,8 +44,26 @@ struct tcb_s
 	int8_t 			prio;
     
 	//任务休眠ticks
-	uint32_t        sleep_tick;                 
+	uint32_t        sleep_tick;    
+    
+	//任务状态
+	uint8_t  status;
+
+	uint8_t wait_status;             
 };
+
+struct sem_s
+{
+  volatile int16_t semcount;     /* >0 -> Num counts available */
+                                 /* <0 -> Num tasks waiting for semaphore */
+  /* If priority inheritance is enabled, then we have to keep track of which
+   * tasks hold references to the semaphore.
+   */
+    struct tcb_s *tcb;
+};
+
+typedef struct sem_s sem_t;
+
 
 //当前执行的任务
 extern struct tcb_s *ygos_tcb_current;   
