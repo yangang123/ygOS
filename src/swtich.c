@@ -12,18 +12,18 @@
 //关闭全局中断
 __asm void ygos_interrupt_disable(void)
 {
-//    EXPORT  ygos_interrupt_disable
-//    MRS     r0, PRIMASK 
-//    //PRIMASK=1	
-//    CPSID   I
+    EXPORT  ygos_interrupt_disable
+    MRS     r0, PRIMASK 
+    //PRIMASK=1	
+    CPSID   I
     BX      LR
 }
 
 //使能全局中断
 __asm void  ygos_interrupt_enable(int level)
 {
-//    EXPORT  ygos_interrupt_enable
-//    MSR     PRIMASK, r0
+    EXPORT  ygos_interrupt_enable
+    MSR     PRIMASK, r0
     BX      LR
 }
 
