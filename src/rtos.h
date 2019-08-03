@@ -62,7 +62,7 @@ struct sem_s
   /* If priority inheritance is enabled, then we have to keep track of which
    * tasks hold references to the semaphore.
    */
-    struct tcb_s *tcb;
+    //struct tcb_s *tcb;
   
 	struct list_head list;
 };

@@ -4,11 +4,12 @@
 
 #define TASK1_STATCK_SIZE  128 
 #define TASK2_STATCK_SIZE  128 
+#define TASK3_STATCK_SIZE  128 
 
 //任务1和任务2的堆栈
 uint32_t  task1_stack[TASK1_STATCK_SIZE];
 uint32_t  task2_stack[TASK2_STATCK_SIZE];
-
+uint32_t  task3_stack[TASK3_STATCK_SIZE];
 
 //任务
 int task1_flag = 0;
@@ -34,16 +35,21 @@ void task2_entry(void *arg)
 {
 	while(1){
 		task2_flag =1 ;
-		//延时200ms
-		ygos_sleep_tick(200);
 		ygos_sem_wait(&sem_mavlink, 1000);
-		//post信号量
-		//ygos_sem_post(&sem_mavlink);
 	    task2_flag =0 ;
-//		//延时200ms，发送信号量
-//		ygos_sleep_tick(200);
-//		ygos_sem_post(&sem_mavlink);
-//		ygos_sleep_tick(100000);
+	}
+}
+
+//任务2入口函数
+void task3_entry(void *arg)
+{
+	while(1){
+		task2_flag =1 ;
+		//延时200ms
+		ygos_sleep_tick(20);
+		//post信号量
+		ygos_sem_post(&sem_mavlink);
+	    task2_flag =0 ;
 	}
 }
 
@@ -59,6 +65,7 @@ int main(int argc, char **argv)
     //创建用户任务
 	ygos_tcb_create(0, task1_entry, (void*)0, &task1_stack[TASK1_STATCK_SIZE]);
 	ygos_tcb_create(1, task2_entry, (void*)0, &task2_stack[TASK2_STATCK_SIZE]);
+	ygos_tcb_create(2, task3_entry, (void*)0, &task3_stack[TASK3_STATCK_SIZE]);
 	
 	//操作系统启动，会触发任务调度到最高优先级的任务
 	ygos_start();

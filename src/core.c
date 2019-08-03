@@ -35,7 +35,7 @@ uint8_t ygos_os_runing = 0;
  uint32_t task_ready_value = 0;
 
 //系统时钟ticks
-static uint32_t ygos_tick = 0;
+ uint32_t ygos_tick = 0;
 
 
 //触发任务切换

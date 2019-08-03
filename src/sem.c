@@ -1,6 +1,6 @@
 
 #include "rtos.h"
-
+#include "list.h"
 //初始化信号量
 int ygos_sem_init( sem_t *sem, unsigned int value)
 {
@@ -30,7 +30,7 @@ int ygos_sem_wait( sem_t *sem, uint32_t tick)
          //当前任务状态为等待状态
          ygos_tcb_current->status = TASK_WAIT_SEM;
 
-         list_add_tail(&sem->list, &(ygos_tcb_current->list)); 
+         list_add_tail(&(ygos_tcb_current->list), &sem->list); 
 
          //任务修改成未就绪
          ygos_task_ready_delete(ygos_prio_current);
@@ -51,7 +51,7 @@ int ygos_sem_post( sem_t *sem)
     ygos_interrupt_disable(); 
 
     if (!list_empty(&sem->list)) {
-        struct tcb_s    *ptcb  = list_entry(&sem->list, struct tcb_s, list);
+        struct tcb_s    *ptcb  = list_entry(sem->list.next, struct tcb_s, list);
         if (ptcb) {
             //删除当前任务
             list_del_first(&sem->list);
