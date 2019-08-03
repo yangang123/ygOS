@@ -85,7 +85,7 @@ void  ygos_tcb_create (int prio, void (*task)(void *p_arg), void *p_arg, uint32_
 	uint32_t *stk;
     int level;
 	
-	ygos_interrupt_disable();
+	level = ygos_interrupt_disable();
     ptcb = ygos_tcb_free_list;
 	if (ptcb != (struct tcb_s *)0) {
 		//空闲任务指针指向链表的下一个节点
@@ -157,7 +157,7 @@ void ygos_interrupt_enter(void)
     int level;
     
 	//ygos支持中断嵌套,
-    ygos_interrupt_disable();
+    level = ygos_interrupt_disable();
     ygos_interrupt_nest++;
     ygos_interrupt_enable(level);
 }
@@ -171,7 +171,7 @@ void ygos_interrupt_leave(void)
 
     int  level;
 
-	ygos_interrupt_disable();
+	level = ygos_interrupt_disable();
 	ygos_interrupt_nest --;
 	if (ygos_interrupt_nest == 0u) {
 		//任务切换
@@ -197,7 +197,7 @@ void  ygos_sche_new (void)
 void  ygos_sche (void)
 {   
 	int  level; 
-	ygos_interrupt_disable();
+	level = ygos_interrupt_disable();
 	//中断服务程序中，不允许任务切换
     if (ygos_interrupt_nest == 0u) {
 		//查找最高优先级的任务
@@ -219,7 +219,7 @@ void ygos_timer_sche(void)
     int level;
 	
 	//更新系统tick
-	ygos_interrupt_disable();
+	level = ygos_interrupt_disable();
 	ygos_tick++;
 	ygos_interrupt_enable(level);
     
@@ -230,7 +230,7 @@ void ygos_timer_sche(void)
 	//从tcb list的指针ygos_tcb_list的头部进行遍历所有的激活的任务
 	ptcb = ygos_tcb_list;                                  
 	while (ptcb->prio != IDLE_TASK_PRIO) {     
-		ygos_interrupt_disable();
+		level = ygos_interrupt_disable();
 		if (ptcb->sleep_tick != 0u) {                    
 			ptcb->sleep_tick--;                         
 			if (ptcb->sleep_tick == 0u) {
@@ -265,7 +265,7 @@ uint32_t ygos_get_tick(void)
 	int level;
     
 	//临界区保护,防止线程获取tick的时候，被中断打断
-	ygos_interrupt_disable();
+	level = ygos_interrupt_disable();
 	ticks = ygos_tick;
 	ygos_interrupt_enable(level);
 	

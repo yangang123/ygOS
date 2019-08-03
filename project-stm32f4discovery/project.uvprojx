@@ -460,9 +460,9 @@
               <FilePath>..\src\sleep.c</FilePath>
             </File>
             <File>
-              <FileName>swtich.c</FileName>
+              <FileName>switch.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\src\swtich.c</FilePath>
+              <FilePath>..\src\switch.c</FilePath>
             </File>
           </Files>
         </Group>

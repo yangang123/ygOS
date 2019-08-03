@@ -2,9 +2,10 @@
 #define RTOS_H
 
 #include <stdint.h>
+#include "list.h"
 
 //配置任务最大数量
-#define TASK_NUM_MAX                      5
+#define TASK_NUM_MAX                      16
 
 //空闲任务分配最低优先级
 #define IDLE_TASK_PRIO                    31
@@ -39,6 +40,8 @@ struct tcb_s
 	struct tcb_s    *next;
 	//执行任务列表的上一个
 	struct tcb_s    *prev;  
+
+	struct list_head list;
     
 	//任务优先级, 0是最高优先级
 	int8_t 			prio;
@@ -54,12 +57,14 @@ struct tcb_s
 
 struct sem_s
 {
-  volatile int16_t semcount;     /* >0 -> Num counts available */
+   volatile int16_t semcount;     /* >0 -> Num counts available */
                                  /* <0 -> Num tasks waiting for semaphore */
   /* If priority inheritance is enabled, then we have to keep track of which
    * tasks hold references to the semaphore.
    */
     struct tcb_s *tcb;
+  
+	struct list_head list;
 };
 
 typedef struct sem_s sem_t;
@@ -117,7 +122,7 @@ void ygos_interrupt_enter(void);
 void ygos_interrupt_leave(void);
 
 //全局中断关闭
-void ygos_interrupt_disable(void);
+uint32_t ygos_interrupt_disable(void);
 
 //全局中断打开
 void ygos_interrupt_enable(int level);
@@ -131,7 +136,13 @@ uint32_t ygos_get_tick(void);
 //空闲任务创建
 void ygos_idle_task_init(void);
 
+//初始化信号量
+int ygos_sem_init( sem_t *sem, unsigned int value);
 
+//等待信号量
+int ygos_sem_wait( sem_t *sem, uint32_t tick);
 
+//发送信号量
+int ygos_sem_post( sem_t *sem);
 
 #endif 

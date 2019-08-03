@@ -11,7 +11,7 @@ void  ygos_sleep_tick (int32_t ticks)
     }
 
     if (ticks > 0u) {                          
-        ygos_interrupt_disable();
+        level = ygos_interrupt_disable();
         //把ticks的值赋值给我TCB的sleep_tick
         ygos_tcb_current->sleep_tick = ticks;  
 	    //把当前任务从就绪列表删除

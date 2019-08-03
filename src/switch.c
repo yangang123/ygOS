@@ -1,5 +1,7 @@
 #include "rtos.h"
 
+//#include "stm32f4xx.h"
+
 //PendSV中断控制器地址
 #define  NVIC_INT_CTRL      0xE000Ed04 
 //触发PendSV
@@ -9,23 +11,22 @@
 //PendSV设置为最低优先值255
 #define  NVIC_PENDSV_PRI    0x000000ff 
 
+
 //关闭全局中断
-__asm void ygos_interrupt_disable(void)
+uint32_t  ygos_interrupt_disable(void)
 {
-    EXPORT  ygos_interrupt_disable
-    MRS     r0, PRIMASK 
-    //PRIMASK=1	
-    CPSID   I
-    BX      LR
+//   uint32_t pri_mask = __get_PRIMASK();
+//   __disable_irq();
+//	
+//	return pri_mask;
+	return 0;
 }
 
 //使能全局中断
-__asm void  ygos_interrupt_enable(int level)
+void  ygos_interrupt_enable(int level)
 {
-    EXPORT  ygos_interrupt_enable
-    MSR     PRIMASK, r0
-    BX      LR
-}
+//    __set_PRIMASK(level);
+} 
 
 //PendSV_Handler异常处理
 __asm void PendSV_Handler(void)

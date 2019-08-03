@@ -385,11 +385,6 @@
               <FilePath>..\src\core.c</FilePath>
             </File>
             <File>
-              <FileName>swtich.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\swtich.c</FilePath>
-            </File>
-            <File>
               <FileName>idle.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\src\idle.c</FilePath>
@@ -403,6 +398,11 @@
               <FileName>sem.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\src\sem.c</FilePath>
+            </File>
+            <File>
+              <FileName>switch.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\src\switch.c</FilePath>
             </File>
           </Files>
         </Group>

@@ -20,11 +20,11 @@ sem_t sem_mavlink;
 //任务1入口函数
 void task1_entry(void *arg)
 {   
-	sem_init(&sem_mavlink, 0);
+	ygos_sem_init(&sem_mavlink, 0);
 	while(1){
 		task1_flag =1 ;
 		//等待时间是1000ms
-		sem_wait(&sem_mavlink, 1000);
+		ygos_sem_wait(&sem_mavlink, 1000);
 		task1_flag =0 ;
 	}
 }
@@ -36,13 +36,14 @@ void task2_entry(void *arg)
 		task2_flag =1 ;
 		//延时200ms
 		ygos_sleep_tick(200);
+		ygos_sem_wait(&sem_mavlink, 1000);
 		//post信号量
-		sem_post(&sem_mavlink);
+		//ygos_sem_post(&sem_mavlink);
 	    task2_flag =0 ;
-		//延时200ms，发送信号量
-		ygos_sleep_tick(200);
-		sem_post(&sem_mavlink);
-		ygos_sleep_tick(100000);
+//		//延时200ms，发送信号量
+//		ygos_sleep_tick(200);
+//		ygos_sem_post(&sem_mavlink);
+//		ygos_sleep_tick(100000);
 	}
 }
 
@@ -53,8 +54,7 @@ int main(int argc, char **argv)
     
 	//操作系统初始化，为TCB分配内存空间，同时启动空闲任务
 	ygos_init();
-	
-	sem_init(&sem_mavlink, 1);
+
 	
     //创建用户任务
 	ygos_tcb_create(0, task1_entry, (void*)0, &task1_stack[TASK1_STATCK_SIZE]);
@@ -68,3 +68,60 @@ int main(int argc, char **argv)
 		//return -1;
 	}
 }
+//#include "list.h"
+//#include <stdio.h>
+
+////定义1个数据类型
+//typedef struct node {
+//    int value;
+//    struct list_head list;
+//}node_t;
+
+
+
+////静态定义1个头节点
+//static LIST_HEAD(head);  //已经有内存空间,空指针
+
+////定义3个全局变量
+//node_t node[3] = {
+//    {1, {NULL, NULL} },
+//    {2, {NULL, NULL} },
+//    {3, {NULL, NULL} }
+//};
+
+//void print_all_node(void)
+//{
+//     //判断节点是否是空
+//    if (!list_empty(&head)) {
+//        //遍历所有节点
+//        node_t *sp;
+//        list_for_each_entry(sp, &head, node_t, list){
+//            //DEBUG("sp:%x, value:%d\n", sp, sp->value);
+//        }
+//    } 
+//}
+//int main(int argc, char **argv)
+//{   
+//    //添加3个节点
+//    list_add_tail(&node[0].list, &head);
+//    list_add_tail(&node[1].list, &head);
+//    list_add_tail(&node[2].list, &head);
+
+//    print_all_node();
+
+//    //删除尾节点
+//    //DEBUG("delete tail(node[2])\n");
+//    list_del(head.prev);
+//    print_all_node();
+
+//    //DEBUG("delete tail(node[1])\n");
+//    list_del(head.prev);
+//    print_all_node();
+
+//    //DEBUG("delete tail(node[0])\n");
+//    list_del(head.prev);
+//    print_all_node();
+
+
+//    return 0;
+//}   
