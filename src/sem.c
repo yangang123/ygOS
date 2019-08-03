@@ -51,7 +51,8 @@ int ygos_sem_post( sem_t *sem)
     ygos_interrupt_disable(); 
 
     if (!list_empty(&sem->list)) {
-        struct tcb_s    *ptcb  = list_entry(sem->list.next, struct tcb_s, list);
+        struct list_head *first = list_get_first(&sem->list);
+        struct tcb_s    *ptcb  = list_entry(first, struct tcb_s, list);
         if (ptcb) {
             //删除当前任务
             list_del_first(&sem->list);

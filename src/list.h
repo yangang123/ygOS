@@ -95,6 +95,16 @@ static inline void list_del_first(struct list_head *head)
 	}
 }
 
+//获取第一个节点
+static inline struct list_head * list_get_first(struct list_head *head)
+{   
+	if(!list_empty(head)) {
+		return head->next;
+	}
+	
+	return (struct list_head *)0;
+}
+
 //删除第二个节点
 static inline void list_del_tail(struct list_head *head)
 {   
