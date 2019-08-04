@@ -85,6 +85,9 @@ extern uint8_t ygos_prio_hig_ready;
 //当前执行的就绪任务的优先级
 extern uint8_t ygos_prio_current; 
 
+//就绪链表
+extern struct list_head ygos_tcb_list;
+
 //中断嵌套级别
 extern volatile int ygos_interrupt_nest;
 

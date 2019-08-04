@@ -29,8 +29,15 @@ int ygos_sem_wait( sem_t *sem, uint32_t tick)
          ygos_tcb_current->sleep_tick = tick;
          //当前任务状态为等待状态
          ygos_tcb_current->status = TASK_WAIT_SEM;
-
-         list_add_tail(&(ygos_tcb_current->list), &sem->list); 
+         
+		 //获取当前运行链表的节点
+		 struct list_head * current = &ygos_tcb_current->list;
+		
+         //移除就绪链表
+		 list_del(current);  
+         
+         //将当前链表添加到信号量等待队列
+         list_add_tail(current, &sem->list); 
 
          //任务修改成未就绪
          ygos_task_ready_delete(ygos_prio_current);
@@ -54,9 +61,16 @@ int ygos_sem_post( sem_t *sem)
         struct list_head *first = list_get_first(&sem->list);
         struct tcb_s    *ptcb  = list_entry(first, struct tcb_s, list);
         if (ptcb) {
+			
+			//获取当前运行链表的节点
+		    struct list_head * current = sem->list.next;
+			
             //删除当前任务
-            list_del_first(&sem->list);
-            
+            list_del_first(&sem->list);			
+			
+            //添加当前列表到就绪队列
+            list_add_tail(current, &ygos_tcb_list); 
+			
             //任务状态变为就绪态
             ptcb->status = TASK_READY_RUN; 
             //任务等待资源

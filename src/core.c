@@ -11,7 +11,7 @@ struct tcb_s *ygos_tcb_high_ready;
 struct tcb_s *ygos_tcb_free_list; 
 
 //激活任务链表
-struct tcb_s *ygos_tcb_list;       
+struct list_head ygos_tcb_list;
 
 //任务内存空间
 struct tcb_s tcb_table[TASK_NUM_MAX];
@@ -98,13 +98,8 @@ void  ygos_tcb_create (int prio, void (*task)(void *p_arg), void *p_arg, uint32_
 		ptcb->stack_ptr = stk;	
         //把当前任务的指针放到TCB的顺序表中
 		tcb_prio_table[prio] = ptcb;
-		//当前tcb插入tcb任务链表的头部
-		ptcb->next = ygos_tcb_list;
-		ptcb->prev = (struct tcb_s *)0;
-		if(ygos_tcb_list != (struct tcb_s *)0) {
-			ygos_tcb_list->prev  = ptcb;
-		}
-		ygos_tcb_list = ptcb;
+	    list_add_tail(&(ptcb->list), &ygos_tcb_list); 
+
         //当前任务初始化为就绪状态
 		ygos_task_ready_add(prio);
 	}
@@ -121,7 +116,7 @@ static void ygos_tcb_list_init(void)
     //TCB空闲链表指针指向第一块TCB
 	ygos_tcb_free_list = &tcb_table[0];
     //TCB任务指针初始化为空
-	ygos_tcb_list      = (struct tcb_s *)0;
+	INIT_LIST_HEAD(&ygos_tcb_list);
 }
 
 //当前任务从未就绪状态变为就绪状态，prio表示任务的优先级
@@ -228,34 +223,33 @@ void ygos_timer_sche(void)
 	}
 
 	//从tcb list的指针ygos_tcb_list的头部进行遍历所有的激活的任务
-	ptcb = ygos_tcb_list;                                  
-	while (ptcb->prio != IDLE_TASK_PRIO) {     
-		level = ygos_interrupt_disable();
-		if (ptcb->sleep_tick != 0u) {                    
-			ptcb->sleep_tick--;                         
-			if (ptcb->sleep_tick == 0u) {
-                
-				//任务处于等待资源状态
-				if (ptcb->status != TASK_READY_RUN) {
+	list_for_each_entry(ptcb, &ygos_tcb_list, struct tcb_s, list) {
+		if (ptcb->prio != IDLE_TASK_PRIO) {
+			level = ygos_interrupt_disable();
+			if (ptcb->sleep_tick != 0u) {                    
+				ptcb->sleep_tick--;                         
+				if (ptcb->sleep_tick == 0u) {
+					
+					//任务处于等待资源状态
+					if (ptcb->status != TASK_READY_RUN) {
 
-					//任务状态修改成运行态
-					ptcb->status = TASK_READY_RUN;
-                     
-					ptcb->wait_status = WAIT_TIMEOUT;
-				} else {
-					ptcb->wait_status = WAIT_OK;
+						//任务状态修改成运行态
+						ptcb->status = TASK_READY_RUN;
+						
+						ptcb->wait_status = WAIT_TIMEOUT;
+					} else {
+						ptcb->wait_status = WAIT_OK;
+					}
+					
+					//ptcb指向的任务的状态从未就绪修改成就绪
+					ygos_task_ready_add(ptcb->prio);                
+					//在就绪列表中获取最高优先级任务
+					ygos_sche_new();
 				}
-                 
-				//ptcb指向的任务的状态从未就绪修改成就绪
-				ygos_task_ready_add(ptcb->prio);                
-				//在就绪列表中获取最高优先级任务
-                ygos_sche_new();
-			}
+			}                  
+			ygos_interrupt_enable(level);
 		}
-		//指向下一个任务
-		ptcb = ptcb->next;                        
-		ygos_interrupt_enable(level);
-	}
+	}                                 
 }
 
 //ygos获取系统tick
