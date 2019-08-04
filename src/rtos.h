@@ -35,12 +35,7 @@ struct tcb_s
 {  
 	//栈地址
 	uint32_t 		*stack_ptr;
-
-    //指向任务列表的下一个
-	struct tcb_s    *next;
-	//执行任务列表的上一个
-	struct tcb_s    *prev;  
-
+	
 	struct list_head list;
     
 	//任务优先级, 0是最高优先级
@@ -77,7 +72,7 @@ extern struct tcb_s *ygos_tcb_current;
 extern struct tcb_s *ygos_tcb_high_ready;
 
 //空闲的任务链表
-extern struct tcb_s *ygos_tcb_free_list; 
+extern struct list_head ygos_tcb_free_list; 
 
 //就就绪表的最高优先级
 extern uint8_t ygos_prio_hig_ready;

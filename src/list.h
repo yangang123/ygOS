@@ -105,7 +105,7 @@ static inline struct list_head * list_get_first(struct list_head *head)
 	return (struct list_head *)0;
 }
 
-//删除第二个节点
+//删除尾节点
 static inline void list_del_tail(struct list_head *head)
 {   
 	if(!list_empty(head)) {

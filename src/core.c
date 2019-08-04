@@ -8,7 +8,7 @@ struct tcb_s *ygos_tcb_current;
 struct tcb_s *ygos_tcb_high_ready;  
 
 //空闲的任务链表    
-struct tcb_s *ygos_tcb_free_list; 
+struct list_head ygos_tcb_free_list; 
 
 //激活任务链表
 struct list_head ygos_tcb_list;
@@ -86,10 +86,13 @@ void  ygos_tcb_create (int prio, void (*task)(void *p_arg), void *p_arg, uint32_
     int level;
 	
 	level = ygos_interrupt_disable();
-    ptcb = ygos_tcb_free_list;
+	
+	struct list_head *first = list_get_first(&ygos_tcb_free_list);
+	ptcb  = list_entry(first, struct tcb_s, list);
+	
 	if (ptcb != (struct tcb_s *)0) {
 		//空闲任务指针指向链表的下一个节点
-        ygos_tcb_free_list            = ptcb->next; 
+	
 		//当前任务优先级  
 		ptcb->prio = prio;		
         //初始化当前任务的堆栈
@@ -98,7 +101,12 @@ void  ygos_tcb_create (int prio, void (*task)(void *p_arg), void *p_arg, uint32_
 		ptcb->stack_ptr = stk;	
         //把当前任务的指针放到TCB的顺序表中
 		tcb_prio_table[prio] = ptcb;
-	    list_add_tail(&(ptcb->list), &ygos_tcb_list); 
+		
+		//删除ygos_tcb_free_list的第一个节点的链表
+		list_del_first(&ygos_tcb_free_list);
+		
+		//把当前节点添加到激活链表中
+	    list_add_tail(first, &ygos_tcb_list); 
 
         //当前任务初始化为就绪状态
 		ygos_task_ready_add(prio);
@@ -109,12 +117,15 @@ void  ygos_tcb_create (int prio, void (*task)(void *p_arg), void *p_arg, uint32_
 
 //初始化TCB的空闲链表空间
 static void ygos_tcb_list_init(void)
-{
-	for (uint8_t i =0; i < TASK_NUM_MAX -1; i++) {
-		tcb_table[i].next = &tcb_table[i+1];
+{   
+	//初始化空闲链表头节点
+	INIT_LIST_HEAD(&ygos_tcb_free_list);
+	
+	//把所有内存节点链表节点写入添加到空闲链表中
+	for (uint8_t i =0; i < TASK_NUM_MAX; i++) {
+		list_add_tail(&tcb_table[i].list, &ygos_tcb_free_list); 
 	}
-    //TCB空闲链表指针指向第一块TCB
-	ygos_tcb_free_list = &tcb_table[0];
+ 
     //TCB任务指针初始化为空
 	INIT_LIST_HEAD(&ygos_tcb_list);
 }
