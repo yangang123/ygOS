@@ -1,24 +1,16 @@
-﻿# YGOS实现
+﻿# ygOS说明
 
-## 文件目录
-├── README.md
-├── sample
-│   ├── main.c
-│   ├── systick.c
-│   └── systick.h
-└── src
-    ├── core.c
-    ├── idle.c
-    ├── rtos.h
-    ├── sleep.c
-    └── swtich.c
-    
-##  功能说明
+ygOS是一款面向未来的宏内核设计的简约的操作系统
 
-1. 支持任务优先级抢占CPU
-2. 支持任务主动休眠sleep
-3. 最多管理32个任务
+# 硬件平台
+- simulator 
+- stm32f4discovery
 
+# 功能说明
+- 线程管理最多支持32个线程
+- 线程调度是完全基于线程优先级的抢占式调度
+- 支持线程主动休眠
+- 支持线程同步通信对象：信号量
 
 
 
