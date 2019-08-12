@@ -44,6 +44,26 @@ extern __asm void os_task_switch(void);
 //第一次触发任务启动，在系统启动的时候调用
 extern __asm void ygos_start_high_ready(void);
 
+//hash表记录优先级是0~255，第一个1的位置，也就是优先级位置
+const uint8_t bitmap[] =
+{
+    /* 00 */ 0, 0, 1, 0, 2, 0, 1, 0, 3, 0, 1, 0, 2, 0, 1, 0,
+    /* 10 */ 4, 0, 1, 0, 2, 0, 1, 0, 3, 0, 1, 0, 2, 0, 1, 0,
+    /* 20 */ 5, 0, 1, 0, 2, 0, 1, 0, 3, 0, 1, 0, 2, 0, 1, 0,
+    /* 30 */ 4, 0, 1, 0, 2, 0, 1, 0, 3, 0, 1, 0, 2, 0, 1, 0,
+    /* 40 */ 6, 0, 1, 0, 2, 0, 1, 0, 3, 0, 1, 0, 2, 0, 1, 0,
+    /* 50 */ 4, 0, 1, 0, 2, 0, 1, 0, 3, 0, 1, 0, 2, 0, 1, 0,
+    /* 60 */ 5, 0, 1, 0, 2, 0, 1, 0, 3, 0, 1, 0, 2, 0, 1, 0,
+    /* 70 */ 4, 0, 1, 0, 2, 0, 1, 0, 3, 0, 1, 0, 2, 0, 1, 0,
+    /* 80 */ 7, 0, 1, 0, 2, 0, 1, 0, 3, 0, 1, 0, 2, 0, 1, 0,
+    /* 90 */ 4, 0, 1, 0, 2, 0, 1, 0, 3, 0, 1, 0, 2, 0, 1, 0,
+    /* A0 */ 5, 0, 1, 0, 2, 0, 1, 0, 3, 0, 1, 0, 2, 0, 1, 0,
+    /* B0 */ 4, 0, 1, 0, 2, 0, 1, 0, 3, 0, 1, 0, 2, 0, 1, 0,
+    /* C0 */ 6, 0, 1, 0, 2, 0, 1, 0, 3, 0, 1, 0, 2, 0, 1, 0,
+    /* D0 */ 4, 0, 1, 0, 2, 0, 1, 0, 3, 0, 1, 0, 2, 0, 1, 0,
+    /* E0 */ 5, 0, 1, 0, 2, 0, 1, 0, 3, 0, 1, 0, 2, 0, 1, 0,
+    /* F0 */ 4, 0, 1, 0, 2, 0, 1, 0, 3, 0, 1, 0, 2, 0, 1, 0
+};
 
 //任务堆栈初始胡xPSP, PC, LR, R......
 static uint32_t *ygos_task_stack_init (void (*task)(void *p_arg), void *p_arg, uint32_t *ptos, int16_t opt)
@@ -53,7 +73,7 @@ static uint32_t *ygos_task_stack_init (void (*task)(void *p_arg), void *p_arg, u
     (void)opt; 
 
 	//stk指向栈顶                                  
-    stk       = ptos;                           
+	stk       = ptos;                           
 	
 	//初始化xPSP, PC, LR等寄存器
     *(--stk)    = (uint32_t)0x01000000uL;            
@@ -81,34 +101,34 @@ static uint32_t *ygos_task_stack_init (void (*task)(void *p_arg), void *p_arg, u
 // 创建任务到任务链表中
 void  ygos_tcb_create (int prio, void (*task)(void *p_arg), void *p_arg, uint32_t  *ptos)                 
 {  
-    struct tcb_s    *ptcb;
+	struct tcb_s    *ptcb;
 	uint32_t *stk;
-    int level;
-	
+	int level;
+
 	level = ygos_interrupt_disable();
-	
+
 	struct list_head *first = list_get_first(&ygos_tcb_free_list);
 	ptcb  = list_entry(first, struct tcb_s, list);
-	
+
 	if (ptcb != (struct tcb_s *)0) {
 		//空闲任务指针指向链表的下一个节点
-	
+
 		//当前任务优先级  
 		ptcb->prio = prio;		
-        //初始化当前任务的堆栈
+		//初始化当前任务的堆栈
 		stk = ygos_task_stack_init(task, 0, ptos, 0);
 		//更新当前任务堆栈指针到当TCb中
 		ptcb->stack_ptr = stk;	
-        //把当前任务的指针放到TCB的顺序表中
+		//把当前任务的指针放到TCB的顺序表中
 		tcb_prio_table[prio] = ptcb;
-		
+
 		//删除ygos_tcb_free_list的第一个节点的链表
 		list_del_first(&ygos_tcb_free_list);
-		
-		//把当前节点添加到激活链表中
-	    list_add_tail(first, &ygos_tcb_list); 
 
-        //当前任务初始化为就绪状态
+		//把当前节点添加到激活链表中
+		list_add_tail(first, &ygos_tcb_list); 
+
+		//当前任务初始化为就绪状态
 		ygos_task_ready_add(prio);
 	}
 	ygos_interrupt_enable(level);
@@ -126,7 +146,7 @@ static void ygos_tcb_list_init(void)
 		list_add_tail(&tcb_table[i].list, &ygos_tcb_free_list); 
 	}
  
-    //TCB任务指针初始化为空
+	//TCB任务指针初始化为空
 	INIT_LIST_HEAD(&ygos_tcb_list);
 }
 
@@ -136,15 +156,27 @@ void ygos_task_ready_add(int prio)
 	task_ready_value |= 1 << prio;
 }
 
-//查找任务就绪列表中最高优先级的任务
+//查找任务就绪列表中最高优先级的任务，时间复杂度是1
 static int ygos_task_high_ready_get(void)
-{
-	for (uint8_t i =0; i < 32; i++){
-		if (task_ready_value & (1<<i)) {
-			return i;	
-		}	
+{   
+	//优先级值的数值越低，任务优先级越高
+	if (task_ready_value  & 0xff) {
+		return bitmap[task_ready_value  & 0x00ff ];
+   	}
+     
+	if (task_ready_value & 0xff00 ) {
+		return bitmap[ (task_ready_value & 0xff00) >> 8 ] + 8 ;
 	}
-	
+
+	if ((task_ready_value & 0xff0000) ) {
+		return bitmap[(task_ready_value  & 0xff0000) >> 16 ] + 16;
+	}
+
+	if ((task_ready_value & 0xff000000) ) {
+		return bitmap[(task_ready_value  & 0xff000000) >> 24 ] + 24 ;
+	}
+    
+	//应该不会跑到这里，空闲任务一直处于就绪状态
 	return -1;
 }
 
@@ -160,7 +192,7 @@ void ygos_interrupt_enter(void)
 	if (!ygos_os_runing){
 		return;
 	}
-    int level;
+	int level;
     
 	//ygos支持中断嵌套,
     level = ygos_interrupt_disable();
@@ -175,7 +207,7 @@ void ygos_interrupt_leave(void)
 		return;
 	}
 
-    int  level;
+	int  level;
 
 	level = ygos_interrupt_disable();
 	ygos_interrupt_nest --;
@@ -211,9 +243,9 @@ void  ygos_sche (void)
 		//通过优先级更新TCB
 		ygos_tcb_high_ready  = tcb_prio_table[ygos_prio_hig_ready];
 		//最高优先级就绪任务和当前任务不一样，则更新更新最高优先级任务
- 		if (ygos_prio_hig_ready != ygos_prio_current) { 
-			 os_task_switch();
-		 }
+		if (ygos_prio_hig_ready != ygos_prio_current) { 
+			os_task_switch();
+		}
 	}
 	ygos_interrupt_enable(level);
 }
@@ -282,11 +314,11 @@ void  ygos_start (void)
 {
     if (!ygos_os_runing) {
 		//从就绪列表中找到最高优先级的任务
-	    ygos_sche_new();
+		ygos_sche_new();
 		//ygos_prio_hig_ready最高优先级赋值给ygos_prio_current
-        ygos_prio_current     = ygos_prio_hig_ready;
+		ygos_prio_current     = ygos_prio_hig_ready;
 		//通过ygos_prio_hig_ready获取顺序表中TCB指针
-        ygos_tcb_high_ready  = tcb_prio_table[ygos_prio_hig_ready];
+		ygos_tcb_high_ready  = tcb_prio_table[ygos_prio_hig_ready];
 		//最高优先级任务的TCB赋值给当前运行任务的TCB指针
 		ygos_tcb_current     = ygos_tcb_high_ready;
 
