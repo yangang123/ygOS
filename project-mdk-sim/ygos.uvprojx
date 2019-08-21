@@ -404,6 +404,11 @@
               <FileType>1</FileType>
               <FilePath>..\src\switch.c</FilePath>
             </File>
+            <File>
+              <FileName>fs_add_inode.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\src\fs_add_inode.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
