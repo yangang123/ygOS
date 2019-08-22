@@ -1,6 +1,7 @@
 
 #include <rtos.h>
 #include "systick.h"
+#include "ramlog.h"
 
 #define TASK1_STATCK_SIZE  128 
 #define TASK2_STATCK_SIZE  128 
@@ -57,7 +58,11 @@ int main(int argc, char **argv)
 {   
 	//系统时钟初始化，在系统中断服务程序中任务调度    
 	systick_init();
-    
+   
+    //注册驱动	
+	ygos_inode_list_init();
+	can_register(); 
+	
 	//操作系统初始化，为TCB分配内存空间，同时启动空闲任务
 	ygos_init();
 

@@ -335,7 +335,7 @@
               <MiscControls></MiscControls>
               <Define></Define>
               <Undefine></Undefine>
-              <IncludePath>..\src;..\sample\mdk_sim</IncludePath>
+              <IncludePath>..\src;..\sample\mdk_sim;..\src\driver;..\src\fs</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -404,11 +404,6 @@
               <FileType>1</FileType>
               <FilePath>..\src\switch.c</FilePath>
             </File>
-            <File>
-              <FileName>fs_add_inode.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\fs_add_inode.c</FilePath>
-            </File>
           </Files>
         </Group>
         <Group>
@@ -423,6 +418,36 @@
               <FileName>sem_test.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\sample\sem_test.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>fs</GroupName>
+          <Files>
+            <File>
+              <FileName>fs_add_inode.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\src\fs\fs_add_inode.c</FilePath>
+            </File>
+            <File>
+              <FileName>fs_call.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\src\fs\fs_call.c</FilePath>
+            </File>
+            <File>
+              <FileName>fs_driver.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\src\fs\fs_driver.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>driver</GroupName>
+          <Files>
+            <File>
+              <FileName>ramlog.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\src\driver\ramlog.c</FilePath>
             </File>
           </Files>
         </Group>

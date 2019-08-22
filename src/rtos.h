@@ -1,6 +1,7 @@
 #ifndef RTOS_H
 #define RTOS_H
 
+#include "fs.h"
 #include <stdint.h>
 #include "list.h"
 
