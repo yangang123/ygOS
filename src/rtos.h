@@ -36,6 +36,9 @@ struct tcb_s
 	//栈地址
 	uint32_t 		*stack_ptr;
 	
+	//多线程共享资源
+	struct filelist tg_filelist;
+
 	struct list_head list;
     
 	//任务优先级, 0是最高优先级

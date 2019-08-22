@@ -15,5 +15,6 @@ static void ygos_inode_list_init(void)
 	for (int i =0; i < INODE_NUM_MAX; i++) {
 		list_add_tail(&inode_table[i].list, &ygos_inode_free_list); 
 	}
-
 }
+
+
