@@ -399,16 +399,16 @@
               <FileType>1</FileType>
               <FilePath>..\src\sem.c</FilePath>
             </File>
-            <File>
-              <FileName>switch.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\switch.c</FilePath>
-            </File>
           </Files>
         </Group>
         <Group>
           <GroupName>sample</GroupName>
           <Files>
+            <File>
+              <FileName>switch.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\src\switch.c</FilePath>
+            </File>
             <File>
               <FileName>systick.c</FileName>
               <FileType>1</FileType>
@@ -425,19 +425,19 @@
           <GroupName>fs</GroupName>
           <Files>
             <File>
-              <FileName>fs_add_inode.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\fs\fs_add_inode.c</FilePath>
-            </File>
-            <File>
-              <FileName>fs_call.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\fs\fs_call.c</FilePath>
-            </File>
-            <File>
               <FileName>fs_driver.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\src\fs\fs_driver.c</FilePath>
+            </File>
+            <File>
+              <FileName>fs_syscall.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\src\fs\fs_syscall.c</FilePath>
+            </File>
+            <File>
+              <FileName>fs_inode.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\src\fs\deviceNode\fs_inode.c</FilePath>
             </File>
           </Files>
         </Group>

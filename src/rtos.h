@@ -32,6 +32,8 @@
 //信号量资源最大数量
 #define SEM_VALUE_MAX                      10
 
+struct filelist;
+
 struct tcb_s
 {  
 	//栈地址

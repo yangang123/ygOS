@@ -140,150 +140,138 @@
         <Bp>
           <Number>0</Number>
           <Type>0</Type>
-          <LineNumber>63</LineNumber>
+          <LineNumber>36</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>1272</Address>
+          <Address>2288</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
           <SizeOfObject>0</SizeOfObject>
           <BreakByAccess>0</BreakByAccess>
           <BreakIfRCount>1</BreakIfRCount>
-          <Filename>..\sample\sem_test.c</Filename>
+          <Filename>..\src\fs\fs_driver.c</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\minios\../sample/sem_test.c\63</Expression>
+          <Expression>\\minios\../src/fs/fs_driver.c\36</Expression>
         </Bp>
         <Bp>
           <Number>1</Number>
           <Type>0</Type>
-          <LineNumber>67</LineNumber>
+          <LineNumber>144</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>1280</Address>
+          <Address>2472</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
           <SizeOfObject>0</SizeOfObject>
           <BreakByAccess>0</BreakByAccess>
           <BreakIfRCount>1</BreakIfRCount>
-          <Filename>..\sample\sem_test.c</Filename>
+          <Filename>E:\yangang\Software\project\ygos\src\fs\fs_inode.c</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\minios\../sample/sem_test.c\67</Expression>
+          <Expression>\\minios\../src/fs/fs_inode.c\144</Expression>
         </Bp>
         <Bp>
           <Number>2</Number>
           <Type>0</Type>
-          <LineNumber>64</LineNumber>
+          <LineNumber>100</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>1276</Address>
+          <Address>4116</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
           <SizeOfObject>0</SizeOfObject>
           <BreakByAccess>0</BreakByAccess>
           <BreakIfRCount>1</BreakIfRCount>
-          <Filename>..\sample\sem_test.c</Filename>
+          <Filename>E:\yangang\Software\project\ygos\src\fs\fs_inode.c</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\minios\../sample/sem_test.c\64</Expression>
+          <Expression>\\minios\../src/fs/fs_inode.c\100</Expression>
         </Bp>
         <Bp>
           <Number>3</Number>
           <Type>0</Type>
-          <LineNumber>35</LineNumber>
+          <LineNumber>120</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>1368</Address>
+          <Address>4148</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
           <SizeOfObject>0</SizeOfObject>
           <BreakByAccess>0</BreakByAccess>
           <BreakIfRCount>1</BreakIfRCount>
-          <Filename>..\src\fs\fs_driver.c</Filename>
+          <Filename>E:\yangang\Software\project\ygos\src\fs\fs_inode.c</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\minios\../src/fs/fs_driver.c\35</Expression>
-        </Bp>
-        <Bp>
-          <Number>4</Number>
-          <Type>0</Type>
-          <LineNumber>25</LineNumber>
-          <EnabledFlag>1</EnabledFlag>
-          <Address>1168</Address>
-          <ByteObject>0</ByteObject>
-          <HtxType>0</HtxType>
-          <ManyObjects>0</ManyObjects>
-          <SizeOfObject>0</SizeOfObject>
-          <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>1</BreakIfRCount>
-          <Filename>..\src\fs\fs_driver.c</Filename>
-          <ExecCommand></ExecCommand>
-          <Expression>\\minios\../src/fs/fs_driver.c\25</Expression>
-        </Bp>
-        <Bp>
-          <Number>5</Number>
-          <Type>0</Type>
-          <LineNumber>42</LineNumber>
-          <EnabledFlag>1</EnabledFlag>
-          <Address>1396</Address>
-          <ByteObject>0</ByteObject>
-          <HtxType>0</HtxType>
-          <ManyObjects>0</ManyObjects>
-          <SizeOfObject>0</SizeOfObject>
-          <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>1</BreakIfRCount>
-          <Filename>..\src\fs\fs_driver.c</Filename>
-          <ExecCommand></ExecCommand>
-          <Expression>\\minios\../src/fs/fs_driver.c\42</Expression>
+          <Expression>\\minios\../src/fs/fs_inode.c\120</Expression>
         </Bp>
       </Breakpoint>
       <WatchWindow1>
         <Ww>
           <count>0</count>
           <WinNumber>1</WinNumber>
-          <ItemText>node</ItemText>
+          <ItemText>sem_mavlink</ItemText>
         </Ww>
         <Ww>
           <count>1</count>
           <WinNumber>1</WinNumber>
-          <ItemText>head</ItemText>
+          <ItemText>tcb_table</ItemText>
         </Ww>
         <Ww>
           <count>2</count>
           <WinNumber>1</WinNumber>
-          <ItemText>\\minios\../sample/sem_test.c\node[1].list</ItemText>
+          <ItemText>ptcb</ItemText>
         </Ww>
         <Ww>
           <count>3</count>
           <WinNumber>1</WinNumber>
-          <ItemText>sem_mavlink</ItemText>
+          <ItemText>ygos_tcb_list</ItemText>
         </Ww>
         <Ww>
           <count>4</count>
           <WinNumber>1</WinNumber>
-          <ItemText>tcb_table</ItemText>
+          <ItemText>ygos_tcb_list</ItemText>
         </Ww>
         <Ww>
           <count>5</count>
           <WinNumber>1</WinNumber>
-          <ItemText>ptcb</ItemText>
+          <ItemText>ygos_tcb_free_list</ItemText>
         </Ww>
         <Ww>
           <count>6</count>
           <WinNumber>1</WinNumber>
-          <ItemText>ygos_tcb_list</ItemText>
+          <ItemText>inode_table</ItemText>
         </Ww>
         <Ww>
           <count>7</count>
           <WinNumber>1</WinNumber>
-          <ItemText>ygos_tcb_list</ItemText>
+          <ItemText>g_root_inode</ItemText>
         </Ww>
         <Ww>
           <count>8</count>
           <WinNumber>1</WinNumber>
-          <ItemText>ygos_tcb_free_list</ItemText>
+          <ItemText>g_ramlog_buf</ItemText>
         </Ww>
         <Ww>
           <count>9</count>
           <WinNumber>1</WinNumber>
+          <ItemText>buf</ItemText>
+        </Ww>
+        <Ww>
+          <count>10</count>
+          <WinNumber>1</WinNumber>
           <ItemText>inode_table</ItemText>
+        </Ww>
+        <Ww>
+          <count>11</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>ygos_inode_free_list</ItemText>
+        </Ww>
+        <Ww>
+          <count>12</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>debug</ItemText>
+        </Ww>
+        <Ww>
+          <count>13</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>current1</ItemText>
         </Ww>
       </WatchWindow1>
       <WatchWindow2>
@@ -388,8 +376,16 @@
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
+  </Group>
+
+  <Group>
+    <GroupName>sample</GroupName>
+    <tvExp>1</tvExp>
+    <tvExpOptDlg>0</tvExpOptDlg>
+    <cbSel>0</cbSel>
+    <RteFlg>0</RteFlg>
     <File>
-      <GroupNumber>1</GroupNumber>
+      <GroupNumber>2</GroupNumber>
       <FileNumber>5</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
@@ -400,14 +396,6 @@
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
-  </Group>
-
-  <Group>
-    <GroupName>sample</GroupName>
-    <tvExp>1</tvExp>
-    <tvExpOptDlg>0</tvExpOptDlg>
-    <cbSel>0</cbSel>
-    <RteFlg>0</RteFlg>
     <File>
       <GroupNumber>2</GroupNumber>
       <FileNumber>6</FileNumber>
@@ -447,8 +435,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\src\fs\fs_add_inode.c</PathWithFileName>
-      <FilenameWithoutPath>fs_add_inode.c</FilenameWithoutPath>
+      <PathWithFileName>..\src\fs\fs_driver.c</PathWithFileName>
+      <FilenameWithoutPath>fs_driver.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -459,8 +447,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\src\fs\fs_call.c</PathWithFileName>
-      <FilenameWithoutPath>fs_call.c</FilenameWithoutPath>
+      <PathWithFileName>..\src\fs\fs_syscall.c</PathWithFileName>
+      <FilenameWithoutPath>fs_syscall.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -471,8 +459,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\src\fs\fs_driver.c</PathWithFileName>
-      <FilenameWithoutPath>fs_driver.c</FilenameWithoutPath>
+      <PathWithFileName>..\src\fs\deviceNode\fs_inode.c</PathWithFileName>
+      <FilenameWithoutPath>fs_inode.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>

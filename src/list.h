@@ -112,5 +112,13 @@ static inline void list_del_tail(struct list_head *head)
 		list_del(head->prev);
 	}
 }
-	
+
+static inline struct list_head * list_pop(struct list_head *head)
+{   
+	struct list_head *node = list_get_first(head);
+	list_del_first(head);
+
+	return node;
+}
+
 #endif
