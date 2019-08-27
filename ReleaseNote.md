@@ -31,4 +31,4 @@ console
 
 # v1.0.2_beta1
 -  支持通过mount挂载proc虚拟文件系统
--  支持通过proc文件系统uptime接口
+-  支持通过proc文件系统读取/proc/uptime获取系统tick
