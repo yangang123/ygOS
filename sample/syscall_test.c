@@ -3,6 +3,7 @@
 #include "systick.h"
 #include "ramlog.h"
 #include "stdio.h"
+#include "fs.h"
 
 #define TASK1_STATCK_SIZE  128 
 #define TASK2_STATCK_SIZE  128 
@@ -19,16 +20,28 @@ int task2_flag = 0;
 
 //信号量测试
 sem_t sem_mavlink;
-char buf[24] = {0x00};
+char buf1[24] = {0x00};
+char buf1_len = 0x00;
 
 //任务1入口函数
 void task1_entry(void *arg)
 {   
-	int fd = open("/dev/ramlog", 0);
-    if (fd >= 0) {
-        char *p = "abc";
-        write(fd, p, strlen(p));
-        read(fd, buf, 24);
+//	int fd = open("/dev/ramlog", 0);
+//    if (fd >= 0) {
+//        char *p = "abc";
+//        write(fd, p, strlen(p));
+//        read(fd, buf, 24);
+//    }
+	
+	if (!mount(NULL, "/proc", "procfs", 0, NULL)) {
+        int fd = open("/proc/uptime", 0x01);
+		if (fd < 0) {
+			//printf("open error\n");
+			//return 0;
+		} else {
+			buf1_len = read(fd, buf1, 24);
+			//printf("buf:%s\n", buf);
+		}
     }
 	
 	ygos_sem_init(&sem_mavlink, 0);

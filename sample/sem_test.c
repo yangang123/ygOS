@@ -61,7 +61,7 @@ int main(int argc, char **argv)
    
     //注册驱动	
 	ygos_inode_list_init();
-	can_register(); 
+	ramlog_register(); 
 	
 	//操作系统初始化，为TCB分配内存空间，同时启动空闲任务
 	ygos_init();

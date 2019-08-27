@@ -7,17 +7,17 @@ void inode_lock(void)
 
 }
 
-
 void inode_unlock(void)
 {
 
 }
 
+// 注册设备驱动程序
 int register_driver(const char*path, const struct file_operations *fops, void *priv)
 {  
     inode_t *node;
     int ret = -1;
-    ret = inode_get(path, &node);
+    ret = ygos_inode_get(path, &node);
     if (ret < 0) {
         return -1;
     }
@@ -27,7 +27,7 @@ int register_driver(const char*path, const struct file_operations *fops, void *p
     return 0;
 }
 
-
+//移除字符设备驱动
 int unregister_driver(const char*path)
 {    
     DEBUG("a\n");

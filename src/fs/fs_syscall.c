@@ -1,7 +1,6 @@
 #include "fs.h"
 #include "rtos.h"
 
-
 //文件打开
 int file_open( struct file *filep, int flags)
 {
@@ -16,9 +15,7 @@ int file_read( struct file *filep,  void *buf, int nbytes)
    //执行file_node
    struct inode *inode;
    inode = filep->f_inode;
-   inode->u.i_ops->read(filep, buf, nbytes);
-	
-   return 0;
+   return inode->u.i_ops->read(filep, buf, nbytes);
 }
 
 //文件写入
@@ -52,21 +49,22 @@ int file_alloc(inode_t *node)
     return -1;
 }
 
+//通过fd,获取file对象
 struct file* file_get(int fd)
 {   
     return &ygos_tcb_current->tg_filelist.fl_files[fd];
 }
 
 //打开
-int open( const char * path, int flags)
+int open( const char * path, int oflags, ...)
 {    
     int fd = -1;
-    
+    int ret = -1;
+
     //查找路径
     inode_desc_t desc;
-    INODE_INIT(desc, path);
-    int ret= inode_find(path, &desc);
-   
+    INODE_INIT(desc,path);
+    ret= ygos_inode_find(path, &desc);
     if (ret < 0) {
         DEBUG("no found\n");
         return -1;
@@ -76,8 +74,18 @@ int open( const char * path, int flags)
     inode_t *node = desc.node;
     fd = file_alloc(node);
     DEBUG("fd:%d\n", fd);
-    if (fd >= 0) {
-        return node->u.i_ops->open(file_get(fd));
+    struct file *filep = file_get(fd);
+    if (fd >= 0) {  
+        if (FILE_NODE_TYPE_IS_MOUNTPT(node))    {
+            ret= node->u.i_mops->open(filep, desc.relative_path, oflags, 0);
+           
+        }   else    {
+            ret= node->u.i_ops->open(filep);
+        }
+        if (ret < 0 ) {
+             DEBUG_LR("open failed:%d", ret);
+            return -1;
+        }
     }
     return fd;
 }

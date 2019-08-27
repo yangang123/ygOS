@@ -41,7 +41,8 @@ struct tcb_s
 	
 	//多线程共享资源
 	struct filelist tg_filelist;
-
+    
+	//管理tcb任务循环队列
 	struct list_head list;
     
 	//任务优先级, 0是最高优先级
@@ -52,24 +53,20 @@ struct tcb_s
     
 	//任务状态
 	uint8_t  status;
-
+    
+	//定时等待状态
 	uint8_t wait_status;             
 };
 
 struct sem_s
-{
-   volatile int16_t semcount;     /* >0 -> Num counts available */
-                                 /* <0 -> Num tasks waiting for semaphore */
-  /* If priority inheritance is enabled, then we have to keep track of which
-   * tasks hold references to the semaphore.
-   */
-    //struct tcb_s *tcb;
-  
+{   
+	//信号资源
+    volatile int16_t semcount;     
+
+	//管理信号量循环队列                           
 	struct list_head list;
 };
-
 typedef struct sem_s sem_t;
-
 
 //当前执行的任务
 extern struct tcb_s *ygos_tcb_current;   

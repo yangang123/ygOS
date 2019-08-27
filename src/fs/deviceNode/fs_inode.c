@@ -6,12 +6,8 @@ struct list_head  ygos_inode_free_list;
 inode_t *ygos_inode_list;
 struct inode *g_root_inode = NULL;
 
-int  inode_find(const char*path, inode_desc_t *desc); 
-int  ygos_tree_insert_node(inode_t *node_parent, inode_t *node,  inode_t *left_sibling);
-
-//插入节点
-//node_parent: 父节点， left_sibling：是否存在左兄弟节点  
-int  ygos_tree_insert_node(inode_t *node_parent, inode_t *node,  inode_t *left_sibling)
+//插入节点: node_parent: 父节点， left_sibling：是否存在左兄弟节点  
+static int  ygos_tree_insert_node(inode_t *node_parent, inode_t *node,  inode_t *left_sibling)
 {   
     if (node == NULL){
         return -1;
@@ -79,50 +75,6 @@ int  ygos_tree_insert_node(inode_t *node_parent, inode_t *node,  inode_t *left_s
 	return 0;
 }
 
-//插入节点
-//node_parent: 父节点， left_sibling：是否存在左兄弟节点  
-inode_t * ygos_tree_unlink(const char* path)
-{   
-    inode_desc_t desc;
-    desc.left = NULL;
-    desc.parent = NULL;
-    desc.path = NULL;
-    
-    DEBUG("b\n");
-
-    int ret = inode_find(path, &desc);
-    if (ret < 0) {
-        DEBUG("no found\n");
-        return NULL;
-    }
-    
-    inode_t *node_parent    = desc.parent;
-    inode_t *node           = desc.node;
-    inode_t *left_sibling   = desc.left;
-
-    if (node == NULL){
-        DEBUG("null node\n");
-        return NULL;
-    }
-     
-    DEBUG("c\n");
-    if (left_sibling) {
-
-      left_sibling->r_sibling = node->r_sibling;   
-    } else if (node_parent){
-
-        node_parent->l_child = node->r_sibling;
-
-    } else {
-        //当前节点的兄弟节点作为根节点
-        g_root_inode = node->r_sibling; 
-    }
-
-    node->r_sibling = NULL;
-    DEBUG("d\n");
-    return node;
-}
-
 //给节点拷贝名字，不拷贝'/'
 static void ygos_inode_namecpy(char *dest, const char *src)
 {  
@@ -132,33 +84,27 @@ static void ygos_inode_namecpy(char *dest, const char *src)
 
 	*dest = '\0';
 }
-struct inode *debug[5];
-int debug_i = 0;
 
 //分配节点
-struct inode *ygos_inode_alloc( const char *name)
+static struct inode *ygos_inode_alloc( const char *name)
 {
 	struct list_head *first = list_pop(&ygos_inode_free_list);
     struct inode *node = list_entry(first, inode_t, list);
     
-	debug[debug_i] = node;
-	debug_i++;
-	
     node->l_child =NULL;
     node->r_sibling = NULL;
 	if (node)
     {  
-      ygos_inode_namecpy(node->i_name, name);
+        ygos_inode_namecpy(node->i_name, name);
     }
 
 	return node;
 }
 
-struct list_head * current1 =NULL;
+// 删除节点内存空间
 int ygos_inode_free(struct inode *node)
 {  
 	struct list_head * current = &node->list; 
-	current1 = current;
     list_add_tail(current, &ygos_inode_free_list);
 	return 0;
 }
@@ -227,13 +173,15 @@ int ygos_inode_compare( const char *name, const char *nodename)
     }
 }
 
-// 1: 表示已经存在
-int  inode_find(const char*path, inode_desc_t *desc) 
+//通过path获取设备节点
+int  ygos_inode_find(const char*path, inode_desc_t *desc) 
 {   
-    const char    *name   = path;
-    inode_t *node   = g_root_inode;
-    inode_t *parent = NULL;
-    inode_t *left   = NULL;
+    const char	*name   = path;
+	const char	*relative_path   = NULL;
+    inode_t		*node   = g_root_inode;
+    inode_t		*parent = NULL;
+    inode_t		*left   = NULL;
+    
     int ret         = -1;
     //跳过首字母"///"
     while (*name == '/')
@@ -261,8 +209,9 @@ int  inode_find(const char*path, inode_desc_t *desc)
         } else {
             //继续查找子目录
             const char *nextname = ygos_inode_nextname(name);
-            if (!*nextname) {
+            if (!*nextname || FILE_NODE_TYPE_IS_MOUNTPT(node)) {
                 //当前节点已经存在
+                relative_path = nextname;
                 ret = 1;
                 break;
             }
@@ -279,12 +228,14 @@ int  inode_find(const char*path, inode_desc_t *desc)
      desc->parent  = parent;
      desc->path    = name;
      desc->node    = node;
-     DEBUG("desc->left:%x\tdesc->parent:%x\tdesc->node:%x\n",desc->left,desc->parent,desc->node);
+     desc->relative_path    = relative_path;
+     DEBUG("desc->left:%x\tdesc->parent:%x\tdesc->node:%x, relative_path=%s\n",
+        desc->left,desc->parent,desc->node, desc->relative_path);
      return ret;
 }
 
 //设备树遍历
-int inode_foreach(inode_t *inode, struct inode_path_s *info)
+int ygos_inode_foreach(inode_t *inode, struct inode_path_s *info)
 {  
     if (!inode) {
         return -1;
@@ -297,7 +248,7 @@ int inode_foreach(inode_t *inode, struct inode_path_s *info)
        sprintf(&info->path[len], "/%s", inode->i_name);
 
        info->handler(inode, info);
-       inode_foreach(inode->l_child, info);
+       ygos_inode_foreach(inode->l_child, info);
     
        //清除
        info->path[len] = '\0';
@@ -307,7 +258,7 @@ int inode_foreach(inode_t *inode, struct inode_path_s *info)
 }
 
 //获取设备node
-int  inode_get(const char*path, inode_t **inode) 
+int  ygos_inode_get(const char*path, inode_t **inode) 
 {   
 	const char *name = path;
     struct inode *node = NULL; 
@@ -328,9 +279,9 @@ int  inode_get(const char*path, inode_t **inode)
     desc.parent = NULL;
     desc.path = NULL;
     
-    DEBUG("inode_get path: %s\n", path);
+    DEBUG("ygos_inode_get path: %s\n", path);
     
-    int ret = inode_find(path, &desc);
+    int ret = ygos_inode_find(path, &desc);
     if(ret >= 0) {
         DEBUG("path exsit\n");
         //节点存在
@@ -374,6 +325,49 @@ int  inode_get(const char*path, inode_t **inode)
 	}
 	
     return 0;
+}
+
+// 删除节点
+inode_t * ygos_tree_unlink(const char* path)
+{   
+    inode_desc_t desc;
+    desc.left = NULL;
+    desc.parent = NULL;
+    desc.path = NULL;
+    
+    DEBUG("b\n");
+
+    int ret = ygos_inode_find(path, &desc);
+    if (ret < 0) {
+        DEBUG("no found\n");
+        return NULL;
+    }
+    
+    inode_t *node_parent    = desc.parent;
+    inode_t *node           = desc.node;
+    inode_t *left_sibling   = desc.left;
+
+    if (node == NULL){
+        DEBUG("null node\n");
+        return NULL;
+    }
+     
+    DEBUG("c\n");
+    if (left_sibling) {
+
+      left_sibling->r_sibling = node->r_sibling;   
+    } else if (node_parent){
+
+        node_parent->l_child = node->r_sibling;
+
+    } else {
+        //当前节点的兄弟节点作为根节点
+        g_root_inode = node->r_sibling; 
+    }
+
+    node->r_sibling = NULL;
+    DEBUG("d\n");
+    return node;
 }
 
 //初始化inode的空闲链表空间

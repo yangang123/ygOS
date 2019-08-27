@@ -395,6 +395,11 @@
               <FilePath>..\src\sleep.c</FilePath>
             </File>
             <File>
+              <FileName>switch.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\src\switch.c</FilePath>
+            </File>
+            <File>
               <FileName>sem.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\src\sem.c</FilePath>
@@ -405,19 +410,14 @@
           <GroupName>sample</GroupName>
           <Files>
             <File>
-              <FileName>switch.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\switch.c</FilePath>
-            </File>
-            <File>
               <FileName>systick.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\sample\mdk_sim\systick.c</FilePath>
             </File>
             <File>
-              <FileName>sem_test.c</FileName>
+              <FileName>proc_test.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\sample\sem_test.c</FilePath>
+              <FilePath>..\sample\proc_test.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -439,6 +439,11 @@
               <FileType>1</FileType>
               <FilePath>..\src\fs\deviceNode\fs_inode.c</FilePath>
             </File>
+            <File>
+              <FileName>fs_mount.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\src\fs\fs_mount.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -448,6 +453,21 @@
               <FileName>ramlog.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\src\driver\ramlog.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>fs/proc</GroupName>
+          <Files>
+            <File>
+              <FileName>fs_proc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\src\fs\procfs\fs_proc.c</FilePath>
+            </File>
+            <File>
+              <FileName>fs_procfs_uptime.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\src\fs\procfs\fs_procfs_uptime.c</FilePath>
             </File>
           </Files>
         </Group>
