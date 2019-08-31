@@ -335,7 +335,7 @@
               <MiscControls></MiscControls>
               <Define></Define>
               <Undefine></Undefine>
-              <IncludePath>..\src;..\sample\mdk_sim;..\src\driver;..\src\fs</IncludePath>
+              <IncludePath>..\src;..\sample\mdk_sim;..\src\driver;..\src\fs;..\app\ygsh</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -415,9 +415,9 @@
               <FilePath>..\sample\mdk_sim\systick.c</FilePath>
             </File>
             <File>
-              <FileName>proc_test.c</FileName>
+              <FileName>cmd_test.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\sample\proc_test.c</FilePath>
+              <FilePath>..\sample\cmd_test.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -468,6 +468,21 @@
               <FileName>fs_procfs_uptime.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\src\fs\procfs\fs_procfs_uptime.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>ygsh</GroupName>
+          <Files>
+            <File>
+              <FileName>cmd_cat.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\app\ygsh\cmd_cat.c</FilePath>
+            </File>
+            <File>
+              <FileName>cmd_echo.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\app\ygsh\cmd_echo.c</FilePath>
             </File>
           </Files>
         </Group>

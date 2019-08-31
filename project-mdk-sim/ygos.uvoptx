@@ -140,41 +140,41 @@
         <Bp>
           <Number>0</Number>
           <Type>0</Type>
-          <LineNumber>39</LineNumber>
+          <LineNumber>40</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>2750</Address>
+          <Address>3200</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
           <SizeOfObject>0</SizeOfObject>
           <BreakByAccess>0</BreakByAccess>
           <BreakIfRCount>1</BreakIfRCount>
-          <Filename>..\sample\proc_test.c</Filename>
+          <Filename>E:\yangang\Software\project\ygos\sample\proc_test.c</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\minios\../sample/proc_test.c\39</Expression>
+          <Expression>\\minios\../sample/proc_test.c\40</Expression>
         </Bp>
         <Bp>
           <Number>1</Number>
           <Type>0</Type>
-          <LineNumber>36</LineNumber>
+          <LineNumber>37</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>2738</Address>
+          <Address>3188</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
           <SizeOfObject>0</SizeOfObject>
           <BreakByAccess>0</BreakByAccess>
           <BreakIfRCount>1</BreakIfRCount>
-          <Filename>..\sample\proc_test.c</Filename>
+          <Filename>E:\yangang\Software\project\ygos\sample\proc_test.c</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\minios\../sample/proc_test.c\36</Expression>
+          <Expression>\\minios\../sample/proc_test.c\37</Expression>
         </Bp>
         <Bp>
           <Number>2</Number>
           <Type>0</Type>
           <LineNumber>39</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>2910</Address>
+          <Address>3346</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
@@ -184,6 +184,54 @@
           <Filename>..\src\fs\procfs\fs_procfs_uptime.c</Filename>
           <ExecCommand></ExecCommand>
           <Expression>\\minios\../src/fs/procfs/fs_procfs_uptime.c\39</Expression>
+        </Bp>
+        <Bp>
+          <Number>3</Number>
+          <Type>0</Type>
+          <LineNumber>35</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>1946</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>1</BreakIfRCount>
+          <Filename>E:\yangang\Software\project\ygos\sample\ygsh\cmd_cat.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression>\\minios\../sample/ygsh/cmd_cat.c\35</Expression>
+        </Bp>
+        <Bp>
+          <Number>4</Number>
+          <Type>0</Type>
+          <LineNumber>28</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>1918</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>1</BreakIfRCount>
+          <Filename>E:\yangang\Software\project\ygos\sample\ygsh\cmd_cat.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression>\\minios\../sample/ygsh/cmd_cat.c\28</Expression>
+        </Bp>
+        <Bp>
+          <Number>5</Number>
+          <Type>0</Type>
+          <LineNumber>30</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>0</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>0</BreakIfRCount>
+          <Filename>E:\yangang\Software\project\ygos\sample\proc_test.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression></Expression>
         </Bp>
       </Breakpoint>
       <WatchWindow1>
@@ -286,6 +334,16 @@
           <count>19</count>
           <WinNumber>1</WinNumber>
           <ItemText>uptime_buf_len</ItemText>
+        </Ww>
+        <Ww>
+          <count>20</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>g_cat_buffer</ItemText>
+        </Ww>
+        <Ww>
+          <count>21</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>cat_buffer</ItemText>
         </Ww>
       </WatchWindow1>
       <WatchWindow2>
@@ -429,8 +487,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\sample\proc_test.c</PathWithFileName>
-      <FilenameWithoutPath>proc_test.c</FilenameWithoutPath>
+      <PathWithFileName>..\sample\cmd_test.c</PathWithFileName>
+      <FilenameWithoutPath>cmd_test.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -539,6 +597,38 @@
       <bDave2>0</bDave2>
       <PathWithFileName>..\src\fs\procfs\fs_procfs_uptime.c</PathWithFileName>
       <FilenameWithoutPath>fs_procfs_uptime.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+  </Group>
+
+  <Group>
+    <GroupName>ygsh</GroupName>
+    <tvExp>1</tvExp>
+    <tvExpOptDlg>0</tvExpOptDlg>
+    <cbSel>0</cbSel>
+    <RteFlg>0</RteFlg>
+    <File>
+      <GroupNumber>6</GroupNumber>
+      <FileNumber>15</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\app\ygsh\cmd_cat.c</PathWithFileName>
+      <FilenameWithoutPath>cmd_cat.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>6</GroupNumber>
+      <FileNumber>16</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\app\ygsh\cmd_echo.c</PathWithFileName>
+      <FilenameWithoutPath>cmd_echo.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
