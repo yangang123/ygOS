@@ -37,3 +37,7 @@ console
 # v1.0.3_beta1
 -  支持通过mount挂载FAT32文件系统
 -  支持通过ygOS中的FAT32文件系统，直接访问linux的块设备
+```
+mount(NULL, "/fat", "fatfs", 0, NULL)
+cat("/fat/test1.c");
+````
