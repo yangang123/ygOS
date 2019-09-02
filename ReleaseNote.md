@@ -32,3 +32,8 @@ console
 # v1.0.2_beta1
 -  支持通过mount挂载proc虚拟文件系统
 -  支持通过proc文件系统读取/proc/uptime获取系统tick
+
+
+# v1.0.3_beta1
+-  支持通过mount挂载FAT32文件系统
+-  支持通过ygOS中的FAT32文件系统，直接访问linux的块设备
