@@ -23,9 +23,8 @@ void task1_entry(void *arg)
 	int ret = 0;
 	int fd = 0;
    
-    //挂载proc文件系统
-	if (!mount(NULL, "/fat", "fatfs", 0, NULL)) {
-        printf("fatfs mount ok!\n");
+    if (!mount(NULL, "/fat", "fatfs", 0, NULL)) {
+        DEBUG_LR("fatfs mount ok!");
     }
 
     cat("/fat/test1.c");

@@ -8,9 +8,12 @@ struct fsmap_t
 };
 
 extern const struct mountpt_operations procfs_operations;
+extern const struct mountpt_operations fat_operations;
+
 static const struct fsmap_t ygos_g_fs_table[] =
 {
     { "procfs", &procfs_operations },
+    { "fatfs", &fat_operations },
     { NULL, NULL },
 };
 
@@ -21,7 +24,8 @@ static const struct mountpt_operations* ygos_mount_find_fs(const struct fsmap_t 
 {   
     const struct fsmap_t *fs_i;
     for (fs_i = fs; fs_i->fs_filesystemtype; fs_i++) {
-        if (0 == strcmp(fs->fs_filesystemtype, fs_type))  {
+        DEBUG_LR("fs:%s obj:%s", fs->fs_filesystemtype, fs_type);
+        if (0 == strcmp(fs_i->fs_filesystemtype, fs_type))  {
             return fs_i->fs_mops;
         }
     }
@@ -35,6 +39,7 @@ int mount( const char *source,  const char *target,
            const char *filesystemtype, unsigned long mountflags,
            const void *data)
 {   
+    
     DEBUG_LR("mount");
 
     // 查找当前挂载系统是否存在表中
@@ -60,6 +65,6 @@ int mount( const char *source,  const char *target,
     FILE_NODE_TYPE_SET_MOUNTPT(mountpt_inode);
     mountpt_inode->u.i_mops  = fs_mops;
     mountpt_inode->i_private = fshandle;
-    DEBUG_LR("mount ok");
+    DEBUG_LR("mount ok i_priv:%x",mountpt_inode->i_private);
     return 0;
 }

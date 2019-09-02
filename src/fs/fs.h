@@ -5,28 +5,31 @@
 
 #include <string.h>
 #include <stdio.h>
+#include <stdint.h>
+#include <stdbool.h>
 
 #ifdef DEBUG_ON
 #define DEBUG(...)	    printf("function:%s\tline:%03d\t",__FUNCTION__,__LINE__); printf(__VA_ARGS__)
 #define DEBUG_LR(...)	printf("function:%s\tline:%03d\t",__FUNCTION__,__LINE__); printf(__VA_ARGS__);printf("\n")
+#define DEBUG_COMMON(...) printf(__VA_ARGS__)
 #else 
 #define DEBUG(...)	
 #define DEBUG_LR(...)	
+#define DEBUG_COMMON(...) 
 #endif 
 
 #define O_RDONLY                            0x01
 #define O_WRONLY                            0x02
 
 #define INODE_NUM_MAX                       8
-
+#define FAT_FILE_NUM                        32
 //定义文件句柄的最大数量
 #define CONFIG_NFILE_DESCRIPTORS            8
 
-//修改设置节点属性
 #define FILE_NODE_TYPE_MASK                 0x00000007
-#define FILE_NODE_TYPE_CHAR                 0x00000000 
-#define FILE_NODE_TYPE_BLOCK                0x00000001 
-#define FILE_NODE_TYPE_MOUNTPT              0x00000002 
+#define FILE_NODE_TYPE_CHAR                 0x00000000 /*   Character driver         */
+#define FILE_NODE_TYPE_BLOCK                0x00000001 /*   Block driver             */
+#define FILE_NODE_TYPE_MOUNTPT              0x00000002 /*   Mount point              */
 
 #define FILE_NODE_IS_TYPE(i,t)              (((i)->i_flags & FILE_NODE_TYPE_MASK) == (t)) 
 #define FILE_NODE_GET_TYPE(i)               ((i)->i_flags & FILE_NODE_TYPE_MASK)  
@@ -40,13 +43,18 @@
 #define FILE_NODE_TYPE_IS_BLOCK(i)          FILE_NODE_IS_TYPE(i, FILE_NODE_TYPE_BLOCK)
 #define FILE_NODE_TYPE_IS_MOUNTPT(i)        FILE_NODE_IS_TYPE(i, FILE_NODE_TYPE_MOUNTPT)
 
+#ifdef LINUX
+    #include <fcntl.h>
+#else   
+    typedef unsigned char mode_t;
+    typedef unsigned int off_t;
+#endif 
+
 #define INODE_INIT(desc,path)\
   desc.path=path;\
   desc.parent=NULL;\
   desc.left=NULL;\
   desc.left=NULL
-
-typedef unsigned char mode_t;
 
 //文件操作接口
 struct file;
@@ -92,6 +100,7 @@ struct file
     int               f_oflags;   
     struct inode     *f_inode;  
     void             *f_priv;    
+    off_t             f_pos;      
 };
 
 //每个任务控制块都是有个文件句柄list
@@ -154,6 +163,10 @@ struct mountpt_operations
             unsigned int flags);
 };
 
+#ifdef LINUX
+extern struct list_head  ygos_inode_free_list;
+#endif 
+
 //设备树根节点
 extern struct inode *g_root_inode;
 
@@ -185,5 +198,6 @@ inode_t * 	ygos_tree_unlink(const char* path);
 int mount( const char *source,  const char *target,
            const char *filesystemtype, unsigned long mountflags,
            const void *data);
+
 
 #endif 

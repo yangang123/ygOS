@@ -2,6 +2,7 @@
 
 #include "fs.h"
 #include "cmd.h"
+#include "stdio.h"
 
 typedef void (*cmd_handler_t)(char *data, int len, int end);
 
@@ -12,12 +13,12 @@ static void defalut_print_handler(char *data, int len, int end)
 {  
     int retlen = snprintf(g_cat_buffer, CAT_BUFFER_SIZE,"%s", data);
     g_cat_buffer[retlen] = '\0';
-#ifdef STD_OUT
-    printf(g_cat_buffer);
+
+    DEBUG_COMMON(g_cat_buffer);
     if (end) {
-        putchar('\n');
+        DEBUG_COMMON('\n');
     }
-#endif
+
 }
 
 static int cmd_cat(cmd_handler_t handler, const char *path)
