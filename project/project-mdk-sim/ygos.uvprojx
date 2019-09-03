@@ -335,7 +335,7 @@
               <MiscControls></MiscControls>
               <Define></Define>
               <Undefine></Undefine>
-              <IncludePath>..\src;..\sample\mdk_sim;..\src\driver;..\src\fs;..\app\ygsh;..\src\fs\fatfs</IncludePath>
+              <IncludePath>..\..\src;..\..\src\board\mdk_sim;..\..\src\driver;..\..\src\fs;..\..\app\ygsh;..\..\src\fs\fatfs</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -382,42 +382,37 @@
             <File>
               <FileName>core.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\src\core.c</FilePath>
+              <FilePath>..\..\src\core.c</FilePath>
             </File>
             <File>
               <FileName>idle.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\src\idle.c</FilePath>
-            </File>
-            <File>
-              <FileName>sleep.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\sleep.c</FilePath>
-            </File>
-            <File>
-              <FileName>switch.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\switch.c</FilePath>
+              <FilePath>..\..\src\idle.c</FilePath>
             </File>
             <File>
               <FileName>sem.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\src\sem.c</FilePath>
+              <FilePath>..\..\src\sem.c</FilePath>
+            </File>
+            <File>
+              <FileName>sleep.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\src\sleep.c</FilePath>
+            </File>
+            <File>
+              <FileName>switch.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\src\switch.c</FilePath>
             </File>
           </Files>
         </Group>
         <Group>
-          <GroupName>sample</GroupName>
+          <GroupName>board</GroupName>
           <Files>
             <File>
               <FileName>systick.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\sample\mdk_sim\systick.c</FilePath>
-            </File>
-            <File>
-              <FileName>fat32_test.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\sample\fat32_test.c</FilePath>
+              <FilePath>..\..\src\board\mdk_sim\systick.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -427,22 +422,22 @@
             <File>
               <FileName>fs_driver.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\src\fs\fs_driver.c</FilePath>
-            </File>
-            <File>
-              <FileName>fs_syscall.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\fs\fs_syscall.c</FilePath>
-            </File>
-            <File>
-              <FileName>fs_inode.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\fs\deviceNode\fs_inode.c</FilePath>
+              <FilePath>..\..\src\fs\fs_driver.c</FilePath>
             </File>
             <File>
               <FileName>fs_mount.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\src\fs\fs_mount.c</FilePath>
+              <FilePath>..\..\src\fs\fs_mount.c</FilePath>
+            </File>
+            <File>
+              <FileName>fs_syscall.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\src\fs\fs_syscall.c</FilePath>
+            </File>
+            <File>
+              <FileName>fs_inode.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\src\fs\deviceNode\fs_inode.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -452,7 +447,7 @@
             <File>
               <FileName>ramlog.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\src\driver\ramlog.c</FilePath>
+              <FilePath>..\..\src\driver\ramlog.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -462,12 +457,12 @@
             <File>
               <FileName>fs_proc.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\src\fs\procfs\fs_proc.c</FilePath>
+              <FilePath>..\..\src\fs\procfs\fs_proc.c</FilePath>
             </File>
             <File>
               <FileName>fs_procfs_uptime.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\src\fs\procfs\fs_procfs_uptime.c</FilePath>
+              <FilePath>..\..\src\fs\procfs\fs_procfs_uptime.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -477,12 +472,12 @@
             <File>
               <FileName>cmd_cat.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\app\ygsh\cmd_cat.c</FilePath>
+              <FilePath>..\..\app\ygsh\cmd_cat.c</FilePath>
             </File>
             <File>
               <FileName>cmd_echo.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\app\ygsh\cmd_echo.c</FilePath>
+              <FilePath>..\..\app\ygsh\cmd_echo.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -560,67 +555,27 @@
             <File>
               <FileName>fs_fat32.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\src\fs\fatfs\fs_fat32.c</FilePath>
-              <FileOption>
-                <CommonProperty>
-                  <UseCPPCompiler>2</UseCPPCompiler>
-                  <RVCTCodeConst>0</RVCTCodeConst>
-                  <RVCTZI>0</RVCTZI>
-                  <RVCTOtherData>0</RVCTOtherData>
-                  <ModuleSelection>0</ModuleSelection>
-                  <IncludeInBuild>1</IncludeInBuild>
-                  <AlwaysBuild>2</AlwaysBuild>
-                  <GenerateAssemblyFile>2</GenerateAssemblyFile>
-                  <AssembleAssemblyFile>2</AssembleAssemblyFile>
-                  <PublicsOnly>2</PublicsOnly>
-                  <StopOnExitCode>11</StopOnExitCode>
-                  <CustomArgument></CustomArgument>
-                  <IncludeLibraryModules></IncludeLibraryModules>
-                  <ComprImg>1</ComprImg>
-                </CommonProperty>
-                <FileArmAds>
-                  <Cads>
-                    <interw>2</interw>
-                    <Optim>0</Optim>
-                    <oTime>2</oTime>
-                    <SplitLS>2</SplitLS>
-                    <OneElfS>2</OneElfS>
-                    <Strict>2</Strict>
-                    <EnumInt>2</EnumInt>
-                    <PlainCh>2</PlainCh>
-                    <Ropi>2</Ropi>
-                    <Rwpi>2</Rwpi>
-                    <wLevel>0</wLevel>
-                    <uThumb>2</uThumb>
-                    <uSurpInc>2</uSurpInc>
-                    <uC99>2</uC99>
-                    <useXO>2</useXO>
-                    <v6Lang>0</v6Lang>
-                    <v6LangP>0</v6LangP>
-                    <vShortEn>2</vShortEn>
-                    <vShortWch>2</vShortWch>
-                    <v6Lto>2</v6Lto>
-                    <v6WtE>2</v6WtE>
-                    <v6Rtti>2</v6Rtti>
-                    <VariousControls>
-                      <MiscControls></MiscControls>
-                      <Define></Define>
-                      <Undefine></Undefine>
-                      <IncludePath></IncludePath>
-                    </VariousControls>
-                  </Cads>
-                </FileArmAds>
-              </FileOption>
+              <FilePath>..\..\src\fs\fatfs\fs_fat32.c</FilePath>
             </File>
             <File>
               <FileName>fs_utils.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\src\fs\fatfs\fs_utils.c</FilePath>
+              <FilePath>..\..\src\fs\fatfs\fs_utils.c</FilePath>
             </File>
             <File>
               <FileName>fs_utils_arm.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\src\fs\fatfs\fs_utils_arm.c</FilePath>
+              <FilePath>..\..\src\fs\fatfs\fs_utils_arm.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>app</GroupName>
+          <Files>
+            <File>
+              <FileName>fat32_test.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\app\platform\stm32\fat32_test.c</FilePath>
             </File>
           </Files>
         </Group>

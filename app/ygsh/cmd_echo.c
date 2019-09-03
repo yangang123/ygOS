@@ -12,7 +12,7 @@ int cmd_echo(const char *data, const char *path)
     } 
 
     //只是读取一次数据
-    int nbyteswrite = ygwrite(fd, data, strlen(data));
+    int nbyteswrite = ygwrite(fd, (void*)data, strlen(data));
 
 
     ygclose(fd);

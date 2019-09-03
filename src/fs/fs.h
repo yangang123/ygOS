@@ -2,7 +2,7 @@
 #define _FS_H
 
 #include "list.h"
-
+#include "stdio.h"
 #include <string.h>
 #include <stdio.h>
 #include <stdint.h>
