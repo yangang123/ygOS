@@ -23,6 +23,7 @@ int register_driver(const char*path, const struct file_operations *fops, void *p
     }
     node->u.i_ops   = fops;
     node->i_private = priv;
+    FILE_NODE_TYPE_IS_CHAR(node);
     
     return 0;
 }

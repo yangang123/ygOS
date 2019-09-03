@@ -43,12 +43,9 @@
 #define FILE_NODE_TYPE_IS_BLOCK(i)          FILE_NODE_IS_TYPE(i, FILE_NODE_TYPE_BLOCK)
 #define FILE_NODE_TYPE_IS_MOUNTPT(i)        FILE_NODE_IS_TYPE(i, FILE_NODE_TYPE_MOUNTPT)
 
-#ifdef LINUX
-    #include <fcntl.h>
-#else   
-    typedef unsigned char mode_t;
-    typedef unsigned int off_t;
-#endif 
+typedef unsigned char mode_t;
+typedef unsigned int off_t;
+ 
 
 #define INODE_INIT(desc,path)\
   desc.path=path;\

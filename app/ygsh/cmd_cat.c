@@ -16,7 +16,7 @@ static void defalut_print_handler(char *data, int len, int end)
 
     DEBUG_COMMON(g_cat_buffer);
     if (end) {
-        DEBUG_COMMON('\n');
+        DEBUG_COMMON("\n");
     }
 
 }
@@ -25,19 +25,19 @@ static int cmd_cat(cmd_handler_t handler, const char *path)
 {
     int fd;
 
-    fd = open(path, O_RDONLY);
+    fd = ygopen(path, O_RDONLY);
     if (fd < 0) {
         return -1;
     } 
     
     //只是读取一次数据
-    int nbytesread = read(fd, cat_buffer, CAT_BUFFER_SIZE);
+    int nbytesread = ygread(fd, cat_buffer, CAT_BUFFER_SIZE);
     if (nbytesread < 0) {
         return -1;
     }
     handler(cat_buffer, nbytesread, 1);
 
-   close(fd);
+    ygclose(fd);
 
     return 0;
 }

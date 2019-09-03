@@ -2,8 +2,8 @@
 #define LIST_H
 
 #ifdef LINUX
-#define size_t unsigned long
-#endif 
+	typedef unsigned long size_t;
+#endif
 
 /*
 struct {	 
@@ -105,14 +105,6 @@ static inline struct list_head * list_get_first(struct list_head *head)
 	return (struct list_head *)0;
 }
 
-//删除尾节点
-static inline void list_del_tail(struct list_head *head)
-{   
-	if(!list_empty(head)) {
-		list_del(head->prev);
-	}
-}
-
 static inline struct list_head * list_pop(struct list_head *head)
 {   
 	struct list_head *node = list_get_first(head);
@@ -121,4 +113,12 @@ static inline struct list_head * list_pop(struct list_head *head)
 	return node;
 }
 
+//删除尾节点
+static inline void list_del_tail(struct list_head *head)
+{   
+	if(!list_empty(head)) {
+		list_del(head->prev);
+	}
+}
+	
 #endif

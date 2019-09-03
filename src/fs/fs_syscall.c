@@ -56,7 +56,7 @@ struct file* file_get(int fd)
 }
 
 //打开
-int open( const char * path, int oflags, ...)
+int ygopen( const char * path, int oflags, ...)
 {    
     int fd = -1;
     int ret = -1;
@@ -92,7 +92,7 @@ int open( const char * path, int oflags, ...)
 
 
 //关闭
-int read(int fd,void * buf ,int count)
+int ygread(int fd,void * buf ,int count)
 {  
     if (fd < 0 ) {
 		return -1;
@@ -103,7 +103,7 @@ int read(int fd,void * buf ,int count)
 }
 
 //写入
-int write(int fd,void * buf ,int count)
+int ygwrite(int fd,void * buf ,int count)
 {
     if (fd < 0 ) {
 		return -1;
@@ -114,7 +114,7 @@ int write(int fd,void * buf ,int count)
 }
 
 //关闭
-int close(int fd)
+int ygclose(int fd)
 {
     return 0;
 }
