@@ -2,14 +2,11 @@ cmake_minimum_required (VERSION 2.6)
 project (ygos)
 
 include_directories ("${PROJECT_SOURCE_DIR}/app/ygsh"
-"${PROJECT_SOURCE_DIR}"
-"${PROJECT_SOURCE_DIR}/src/driver"
-"${PROJECT_SOURCE_DIR}/src/fs"
-"${PROJECT_SOURCE_DIR}/src"
-"${PROJECT_SOURCE_DIR}/src/deviceNode"
-"${PROJECT_SOURCE_DIR}/src/fs/fatfs"
-"${PROJECT_SOURCE_DIR}/src/procfs"
-
+"${PROJECT_SOURCE_DIR}/src/include"
+"${PROJECT_SOURCE_DIR}/src/include/driver"
+"${PROJECT_SOURCE_DIR}/src/include/fs"
+"${PROJECT_SOURCE_DIR}/src/include/fs/fatfs"
+"${PROJECT_SOURCE_DIR}/src/include/fs/procfs"
 )
 
 add_definitions(-g -w -Wall -DDEBUG_ON -DSTD_OUT -DLINUX)
@@ -22,7 +19,7 @@ add_executable(ygos
 	src/fs/fatfs/fs_utils.c
 	src/fs/fatfs/fs_utils_arm.c 
 	src/fs/fs_mount.c 
-	src/mm/mallo.c
+	src/mm/malloc.c
 	src/driver/ramlog.c 
 	app/ygsh/cmd_cat.c  
 	app/ygsh/cmd_echo.c 
