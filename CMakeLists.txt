@@ -22,6 +22,7 @@ add_executable(ygos
 	src/fs/fatfs/fs_utils.c
 	src/fs/fatfs/fs_utils_arm.c 
 	src/fs/fs_mount.c 
+	src/mm/mallo.c
 	src/driver/ramlog.c 
 	app/ygsh/cmd_cat.c  
 	app/ygsh/cmd_echo.c 
