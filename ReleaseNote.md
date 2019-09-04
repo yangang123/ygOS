@@ -40,4 +40,8 @@ console
 ```
 mount(NULL, "/fat", "fatfs", 0, NULL)
 cat("/fat/test1.c");
-````
+```
+
+# v1.0.4_beta
+-  支持内存管理malloc
+-  支持内存管理free
