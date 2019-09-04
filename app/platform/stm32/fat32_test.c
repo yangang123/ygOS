@@ -1,7 +1,7 @@
 
-#include <rtos.h>
+#include <ygos/rtos.h>
 #include "systick.h"
-#include "ramlog.h"
+#include <ygos/driver/ramlog.h>
 #include <ygos/libc/stdio.h>
 #include <ygos/fs/fs.h>
 #include "cmd.h"

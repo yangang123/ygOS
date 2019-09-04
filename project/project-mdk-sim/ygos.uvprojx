@@ -335,7 +335,7 @@
               <MiscControls></MiscControls>
               <Define></Define>
               <Undefine></Undefine>
-              <IncludePath>..\..\src;..\..\src\board\mdk_sim;..\..\src\driver;..\..\src\fs;..\..\app\ygsh;..\..\src\fs\fatfs</IncludePath>
+              <IncludePath>..\..\src;..\..\src\board\mdk_sim;..\..\app\ygsh;..\..\src\include</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -382,27 +382,32 @@
             <File>
               <FileName>core.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\src\core.c</FilePath>
+              <FilePath>..\..\src\kernel\core.c</FilePath>
             </File>
             <File>
               <FileName>idle.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\src\idle.c</FilePath>
-            </File>
-            <File>
-              <FileName>sem.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\src\sem.c</FilePath>
+              <FilePath>..\..\src\kernel\idle.c</FilePath>
             </File>
             <File>
               <FileName>sleep.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\src\sleep.c</FilePath>
+              <FilePath>..\..\src\kernel\sleep.c</FilePath>
             </File>
             <File>
               <FileName>switch.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\src\switch.c</FilePath>
+              <FilePath>..\..\src\kernel\switch.c</FilePath>
+            </File>
+            <File>
+              <FileName>malloc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\src\mm\malloc.c</FilePath>
+            </File>
+            <File>
+              <FileName>sem.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\src\ipc\sem.c</FilePath>
             </File>
           </Files>
         </Group>

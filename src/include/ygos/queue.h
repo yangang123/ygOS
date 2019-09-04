@@ -45,7 +45,7 @@ static inline yg_sq_entry_t *yg_sq_remove_first(yg_sq_queue_t*queue)
 }
 
 //添加节点到队尾
-static inline yg_sq_add_tail(yg_sq_queue_t*queue, yg_sq_entry_t *node)
+static inline void yg_sq_add_tail(yg_sq_queue_t*queue, yg_sq_entry_t *node)
 {   
     node->next = NULL;
     if (!queue->head) {
@@ -57,8 +57,6 @@ static inline yg_sq_add_tail(yg_sq_queue_t*queue, yg_sq_entry_t *node)
         //当前尾指针的next指向下一个节点，移动尾指针到下一个节点
         queue->tail->next = node;
         queue->tail = node;  
-
-        printf("tail:%x", node);
     }
 }
 

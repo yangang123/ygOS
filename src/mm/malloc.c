@@ -29,8 +29,9 @@ static void ygos_mem_pool_init(struct mempool *pool)
     //初始化多少块, &kmm
     for (int i = 0 ; i < pool->chunk; i++) { 
         uint32_t offset = pool->per_chunk_size*i;
-        yg_sq_add_tail(&pool->free_queue,(yg_sq_entry_t *)&pool->block[offset]);
-        DEBUG_LR("mem addr:0x%x", (yg_sq_entry_t *)&pool->block[offset]);   
+		uint8_t *buffer = (uint8_t *)pool->block;
+        yg_sq_add_tail(&pool->free_queue,(yg_sq_entry_t *)&buffer[offset]);
+        DEBUG_LR("mem addr:0x%x", (yg_sq_entry_t *)&buffer[offset]);   
     }
 }
 
@@ -66,8 +67,8 @@ void* ygos_malloc(int size)
     }
     //内存池从空闲链表分配内存
     void *ret = NULL;
-   union mm_freenode_u*node = NULL;
-    node = yg_sq_remove_first(&g_kmm_heap.mempool_list[index].free_queue);
+    union mm_freenode_u *node = NULL;
+    node = (union mm_freenode_u *)yg_sq_remove_first(&g_kmm_heap.mempool_list[index].free_queue);
     if (node) {
         node->mem_head.flag  = MM_USED_BIT;
         node->mem_head.size  = g_kmm_heap.mempool_list[index].per_chunk_size;

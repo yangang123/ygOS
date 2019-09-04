@@ -3,7 +3,9 @@
 
 #include <ygos/list.h>
 
+#ifndef NULL
 #define NULL ((void*)0)
+#endif 
 
 #ifndef LINUX
 	#define ygopen 	open
