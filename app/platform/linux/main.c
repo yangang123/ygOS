@@ -81,11 +81,17 @@ void test(void)
         yg_sq_remove_first(&name_queue);
     }
 }
-
+void mem_init(void);
 
 int main(int argc, char **argv)
 {   
     mem_init();
+
+    for (int i = 1; i < 2; i+=5) {
+       void *p= yg_malloc(i);   
+       printf("i: %d, p:%x\n",i, p);
+       yg_free(p);
+    }
 
     // ygos_init();
     // ygos_inode_list_init();

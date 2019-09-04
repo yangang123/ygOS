@@ -54,6 +54,8 @@ static inline yg_sq_add_tail(yg_sq_queue_t*queue, yg_sq_entry_t *node)
         //当前尾指针的next指向下一个节点，移动尾指针到下一个节点
         queue->tail->next = node;
         queue->tail = node;  
+
+        printf("tail:%x", node);
     }
 }
 
