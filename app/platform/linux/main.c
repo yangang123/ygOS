@@ -42,7 +42,7 @@ void proc_test()
 
 void mem_test(void)
 {
-    ygos_mem_init();
+    
     for (int i = 0; i < 6; i++) {
        void *p= ygos_malloc(1<<(4+i));   
        printf("i: %d, p:%x\n",1<<(4+i), p);
@@ -52,6 +52,7 @@ void mem_test(void)
 
 int main(int argc, char **argv)
 {   
+    ygos_mem_init();
     ygos_init();
     ygos_inode_list_init();
     ramlog_register();

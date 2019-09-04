@@ -1,5 +1,6 @@
 
 #include <ygos/fs/fatfs/fatfs.h>
+#include <ygos/libc/stdlib.h>
 
 int     fat_open( struct file *filep,  const char *relpath,
         int oflags, mode_t mode);
@@ -9,9 +10,6 @@ int     fat_bind( struct inode *blkdriver,  const void *data,
         void **handle);
 int     fat_unbind( void *handle,  struct inode **blkdriver,
         unsigned int flags);
-
-//全局文件描述符号
-struct fat_file_s g_file;
 
 //全局挂载点
 struct fat_mountpt_s g_fat;
@@ -164,19 +162,45 @@ int     fat_open( struct file *filep,  const char *relpath,
 
     struct  fat32_direntry* dir = 
         (struct  fat32_direntry*)&fs->fs_buffer[dir_info.fd_seq.ds_offset];
-    g_file.ff_startcluster = (dir->cluster_hi << 16) | dir->cluster_lo;
-    g_file.ff_currentcluster = g_file.ff_startcluster;
-    g_file.ff_size = dir->size;
-    DEBUG_LR("g_file.ff_startcluster:%d", g_file.ff_startcluster);
-    DEBUG_LR("g_file.ff_size:%d", g_file.ff_size);
-    filep->f_priv = &g_file;
+    
+    struct fat_file_s *ff = ygos_malloc(sizeof(struct fat_file_s));
+    if (!ff) {
+        DEBUG_LR("mem null");
+        return -1;
+    }
+
+    ff->ff_buffer = (uint8_t *)ygos_malloc(fs->fs_hwsectorsize);
+    if (!ff) {
+        DEBUG_LR("mem null");
+        return -1;
+    }
+    ff->ff_startcluster = (dir->cluster_hi << 16) | dir->cluster_lo;
+    ff->ff_currentcluster = ff->ff_startcluster;
+    ff->ff_size = dir->size;
+    DEBUG_LR("ff->ff_startcluster:%d", ff->ff_startcluster);
+    DEBUG_LR("ff->ff_size:%d", ff->ff_size);
+    filep->f_priv = (void *)ff;
 
     return 0;
 }
 
 int     fat_close( struct file *filep)
 {
-		return 0;
+    struct inode *inode;
+    struct fat_mountpt_s *fs;
+
+    inode = filep->f_inode;
+    fs   = inode->i_private;
+    struct fat_file_s* fat_file = (struct fat_file_s*)filep->f_priv;
+    DEBUG_LR("close");
+    //先释放buffer内存，后释放文件内存
+    if (!fat_file->ff_buffer) { 
+         ygos_free(fat_file);
+    }
+
+    ygos_free(fat_file);
+
+	return 0;
 } 
 
 int fat_read( struct file *filep,  char *buffer, int buflen)
@@ -191,6 +215,7 @@ int fat_read( struct file *filep,  char *buffer, int buflen)
     
     //限制文件长度
     if (fat_file->ff_size >= 512 || filep->f_pos >= 512) {
+        DEBUG_LR("file too short");
         return -1;
     }
 
@@ -200,12 +225,14 @@ int fat_read( struct file *filep,  char *buffer, int buflen)
         buflen = valid_len; 
     }
     
-    if(!fat_file->ff_bflags) {
-        DEBUG_LR("fat read data");
-        uint32_t sector = fat_cluster2sector(fs, fat_file->ff_currentcluster);
-        fat_hwread(fs, fat_file->ff_buffer, sector, 1);
-        fat_file->ff_bflags = 1;
+    if (!buflen) {
+        return -1;
     }
+    
+    DEBUG_LR("fat read data");
+    uint32_t sector = fat_cluster2sector(fs, fat_file->ff_currentcluster);
+    fat_hwread(fs, fat_file->ff_buffer, sector, 1);
+   
     memcpy(buffer, &fat_file->ff_buffer[filep->f_pos], buflen);
     DEBUG_LR("ch:%c, buflen:%d", fat_file->ff_buffer[0], buflen);
     filep->f_pos += buflen;
@@ -224,6 +251,6 @@ int fat_bind( struct inode *blkdriver,  const void *data,
 int fat_unbind( void *handle,  struct inode **blkdriver,
         unsigned int flags)
 {
-		return 0;
+	return 0;
 } 
 

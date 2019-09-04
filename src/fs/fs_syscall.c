@@ -28,7 +28,7 @@ int file_write( struct file *filep,  void *buf, int nbytes)
 
 //文件关闭
 int file_close(struct file *filep)
-{
+{  
    struct inode *inode;
    inode = filep->f_inode;
    return inode->u.i_ops->close(filep);
@@ -94,7 +94,7 @@ int ygopen( const char * path, int oflags, ...)
 //关闭
 int ygread(int fd,void * buf ,int count)
 {  
-    if (fd < 0 ) {
+	if (fd < 0 ) {
 		return -1;
 	}
     //得到当前任务
@@ -105,16 +105,21 @@ int ygread(int fd,void * buf ,int count)
 //写入
 int ygwrite(int fd,void * buf ,int count)
 {
-    if (fd < 0 ) {
+	if (fd < 0 ) {
 		return -1;
 	}
-    
+
 	struct file *filep = file_get(fd);
-    return file_write(filep, buf, count);
+	return file_write(filep, buf, count);
 }
 
 //关闭
 int ygclose(int fd)
-{
-    return 0;
+{  
+	if (fd < 0 ) {
+		return -1;
+	}
+
+	struct file *filep = file_get(fd);
+	return file_close(filep);
 }

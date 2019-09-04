@@ -103,7 +103,7 @@ struct fat_file_s
 	uint16_t    ff_startcluster;       
 	uint16_t    ff_currentsector;      
 	uint16_t    ff_cachesector;         
-	uint8_t 	ff_buffer[512];              
+	uint8_t *	ff_buffer;              
 };
 
 //记录文件打fat表

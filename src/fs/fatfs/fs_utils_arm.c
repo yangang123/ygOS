@@ -126,6 +126,8 @@ int fat_hwread(struct fat_mountpt_s *fs, uint8_t *buffer,  int sector,
     break;
     }
 
+DEBUG_LR("sector: %d, nsectors:%d", sector, nsectors);
+
     return nsectors;
 }
 
