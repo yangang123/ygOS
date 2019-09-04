@@ -1,8 +1,9 @@
 #ifndef _QUEUE_H
 #define _QUEUE_H
 
+#ifndef NULL
 #define NULL ((void*)0)
-
+#endif 
 struct yg_sq_entry_s
 {
    struct yg_sq_entry_s *next;

@@ -142,32 +142,32 @@
           <Type>0</Type>
           <LineNumber>32</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>4118</Address>
+          <Address>4176</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
           <SizeOfObject>0</SizeOfObject>
           <BreakByAccess>0</BreakByAccess>
           <BreakIfRCount>1</BreakIfRCount>
-          <Filename>..\..\app\platform\stm32\fat32_test.c</Filename>
+          <Filename>..\..\app\platform\stm32\malloc_test.c</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\minios\../../app/platform/stm32/fat32_test.c\32</Expression>
+          <Expression>\\minios\../../app/platform/stm32/malloc_test.c\32</Expression>
         </Bp>
         <Bp>
           <Number>1</Number>
           <Type>0</Type>
           <LineNumber>32</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>4138</Address>
+          <Address>4196</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
           <SizeOfObject>0</SizeOfObject>
           <BreakByAccess>0</BreakByAccess>
           <BreakIfRCount>1</BreakIfRCount>
-          <Filename>..\..\app\platform\stm32\fat32_test.c</Filename>
+          <Filename>..\..\app\platform\stm32\malloc_test.c</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\minios\../../app/platform/stm32/fat32_test.c\32</Expression>
+          <Expression>\\minios\../../app/platform/stm32/malloc_test.c\32</Expression>
         </Bp>
       </Breakpoint>
       <WatchWindow1>
@@ -335,7 +335,7 @@
       <DebugFlag>
         <trace>0</trace>
         <periodic>1</periodic>
-        <aLwin>1</aLwin>
+        <aLwin>0</aLwin>
         <aCover>0</aCover>
         <aSer1>0</aSer1>
         <aSer2>0</aSer2>
@@ -667,8 +667,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\..\app\platform\stm32\fat32_test.c</PathWithFileName>
-      <FilenameWithoutPath>fat32_test.c</FilenameWithoutPath>
+      <PathWithFileName>..\..\app\platform\stm32\malloc_test.c</PathWithFileName>
+      <FilenameWithoutPath>malloc_test.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>

@@ -335,7 +335,7 @@
               <MiscControls></MiscControls>
               <Define></Define>
               <Undefine></Undefine>
-              <IncludePath>..\..\src;..\..\src\board\mdk_sim;..\..\app\ygsh;..\..\src\include</IncludePath>
+              <IncludePath>..\..\src\board\mdk_sim;..\..\app\ygsh;..\..\src\include</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -578,9 +578,9 @@
           <GroupName>app</GroupName>
           <Files>
             <File>
-              <FileName>fat32_test.c</FileName>
+              <FileName>malloc_test.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\app\platform\stm32\fat32_test.c</FilePath>
+              <FilePath>..\..\app\platform\stm32\malloc_test.c</FilePath>
             </File>
           </Files>
         </Group>
