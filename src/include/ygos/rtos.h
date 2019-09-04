@@ -1,9 +1,11 @@
 #ifndef RTOS_H
 #define RTOS_H
 
-#include "fs.h"
-#include <stdint.h>
-#include "list.h"
+
+#include <ygos/libc/stdint.h>
+
+#include <ygos/fs/fs.h>
+#include <ygos/list.h>
 
 //配置任务最大数量
 #define TASK_NUM_MAX                      16

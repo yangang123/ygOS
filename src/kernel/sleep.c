@@ -1,5 +1,5 @@
 
-#include "rtos.h"
+#include <ygos/rtos.h>
 
 //当前任务休眠ticks个系统滴答
 void  ygos_sleep_tick (int32_t ticks)

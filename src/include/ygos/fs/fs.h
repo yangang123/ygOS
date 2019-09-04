@@ -1,14 +1,14 @@
 #ifndef _FS_H
 #define _FS_H
 
-#include "list.h"
-#include "stdio.h"
-#include <string.h>
-#include <stdio.h>
-#include <stdint.h>
-#include <stdbool.h>
+#include <ygos/list.h>
+#include <ygos/libc/stdio.h>
+#include <ygos/debug.h>
+#include <ygos/libc/stdint.h>
 
-#include "debug.h"
+// #include <string.h>
+// #include <stdio.h>
+#include <stdbool.h>
 
 #define O_RDONLY                            0x01
 #define O_WRONLY                            0x02
@@ -131,7 +131,7 @@ struct mountpt_operations
   int     (*close)( struct file *filep);
   int 	  (*read)( struct file *filep,  char *buffer, int buflen);
   int 	  (*write)( struct file *filep,  const char *buffer,
-            size_t buflen);
+            int buflen);
   int     (*seek)( struct file *filep, int offset, int whence);
   int     (*ioctl)( struct file *filep, int cmd, unsigned long arg);
 

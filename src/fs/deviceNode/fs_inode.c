@@ -1,5 +1,5 @@
 
-#include "fs.h"
+#include <ygos/fs/fs.h>
 
 inode_t inode_table[INODE_NUM_MAX];
 struct list_head  ygos_inode_free_list;

@@ -75,7 +75,7 @@ int main(int argc, char **argv)
 		//return -1;
 	}
 }
-//#include "list.h"
+//#include <ygos/list.h>
 //#include <stdio.h>
 
 ////定义1个数据类型

@@ -1,6 +1,6 @@
 
 
-#include "fs.h"
+#include <ygos/fs/fs.h>
 
 int cmd_echo(const char *data, const char *path)
 {

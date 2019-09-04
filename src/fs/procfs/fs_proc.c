@@ -1,5 +1,5 @@
 
-#include "procfs.h"
+#include <ygos/fs/procfs/procfs.h>
 
 int     procfs_open( struct file *filep,  const char *relpath,
         int oflags, mode_t mode);

@@ -1,6 +1,6 @@
 
-#include "rtos.h"
-#include "list.h"
+#include <ygos/rtos.h>
+#include <ygos/list.h>
 //初始化信号量
 int ygos_sem_init( sem_t *sem, unsigned int value)
 {

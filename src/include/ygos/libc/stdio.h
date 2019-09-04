@@ -1,10 +1,9 @@
 #ifndef _STDIO_H
 #define _STDIO_H
 
-#include "list.h"
+#include <ygos/list.h>
 
-#include <string.h>
-#include <stdio.h>
+#define NULL ((void*)0)
 
 #ifndef LINUX
 	#define ygopen 	open

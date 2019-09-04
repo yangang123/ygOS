@@ -1,5 +1,5 @@
 
-#include "fs.h"
+#include <ygos/fs/fs.h>
 
 struct fsmap_t
 {

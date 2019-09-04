@@ -1,6 +1,6 @@
 
-#include "fs.h"
-#include "list.h"
+#include <ygos/fs/fs.h>
+#include <ygos/list.h>
 
 void inode_lock(void)
 {

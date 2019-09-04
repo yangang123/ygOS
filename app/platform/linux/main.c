@@ -1,11 +1,11 @@
 
 
-#include <stdio.h>
-#include "stdio.h"
-#include "rtos.h"
+#include <ygos/libc/stdio.h>
+#include <ygos/fs/fatfs/fatfs.h>
+#include <ygos/queue.h>
+#include <ygos/rtos.h>
+#include <ygos/mm/mm.h>
 #include "cmd.h"
-#include "fatfs.h"
-#include "queue.h"
 
 void inode_handler(inode_t* node, struct inode_path_s *info)
 {
@@ -40,70 +40,27 @@ void proc_test()
     cat("/proc/uptime");
 }
 
-
-
-// void sq_add_first(yg_sq_queue_t*queue, yg_sq_entry_t *node)
-// {   
-//     node->next = queue->head;
-//     if (!queue->head) {
-//         queue->tail = node;
-//         queue->head = node;
-//     } else {
-//         queue->head = node;
-//     }
-// }
-
-
-
-struct name{
-    struct name *next; 
-    int number;
-};
-yg_sq_queue_t name_queue;
-
-struct name table[5] = {
-    {NULL, 1},
-    {NULL, 2},
-    {NULL, 3},
-    {NULL, 4},
-    {NULL, 5}
-};
-
-void test(void)
-{  
-    sq_init(&name_queue);
-
-    for (int i = 0; i < 5; i++) {
-        yg_sq_add_tail(&name_queue, (yg_sq_entry_t *)&table[i]);
-    }
-
-    for (int i = 0; i < 5; i++) {
-        yg_sq_remove_first(&name_queue);
+void mem_test(void)
+{
+    ygos_mem_init();
+    for (int i = 0; i < 6; i++) {
+       void *p= ygos_malloc(1<<(4+i));   
+       printf("i: %d, p:%x\n",1<<(4+i), p);
+       ygos_free(p);
     }
 }
-void mem_init(void);
 
 int main(int argc, char **argv)
 {   
-    mem_init();
-
-    for (int i = 1; i < 2; i+=5) {
-       void *p= yg_malloc(i);   
-       printf("i: %d, p:%x\n",i, p);
-       yg_free(p);
+    ygos_init();
+    ygos_inode_list_init();
+    ramlog_register();
+    
+    if (!mount(NULL, "/proc", "procfs", 0, NULL)) {
+        printf("mount ok!\n");
     }
 
-    // ygos_init();
-    // ygos_inode_list_init();
-    // ramlog_register();
-    
-    // if (!mount(NULL, "/proc", "procfs", 0, NULL)) {
-    //     printf("mount ok!\n");
-    // }
-
-    
-    
-    // fat32_test();
+    fat32_test();
 
 	return 0;
 }

@@ -1,6 +1,6 @@
 
 #include "timer.h"
-#include "rtos.h"
+#include <ygos/rtos.h>
 
 void TIM2_NVIC_Config(void)
 {

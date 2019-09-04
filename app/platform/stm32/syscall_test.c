@@ -2,8 +2,8 @@
 #include <rtos.h>
 #include "systick.h"
 #include "ramlog.h"
-#include "stdio.h"
-#include "fs.h"
+#include <ygos/libc/stdio.h>
+#include <ygos/fs/fs.h>
 
 #define TASK1_STATCK_SIZE  128 
 #define TASK2_STATCK_SIZE  128 

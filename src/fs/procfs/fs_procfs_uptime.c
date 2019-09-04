@@ -1,6 +1,6 @@
 
-#include "procfs.h"
-#include "rtos.h"
+#include <ygos/fs/procfs/procfs.h>
+#include <ygos/rtos.h>
 
 struct uptime_file_s g_uptime_file;
 

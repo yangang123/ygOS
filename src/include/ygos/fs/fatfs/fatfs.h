@@ -1,7 +1,8 @@
 #ifndef _FATFS_H
 #define _FATFS_H
 
-#include "fs.h"
+#include <ygos/fs/fs.h>
+
 #include <stdint.h>
 #include <stdbool.h>
 

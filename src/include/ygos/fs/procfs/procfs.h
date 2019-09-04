@@ -1,7 +1,7 @@
 #ifndef _PROCFS_H
 #define _PROCFS_H
 
-#include "fs.h"
+#include <ygos/fs/fs.h>
 
 // proc对子目录的抽象
 struct procfs_operations

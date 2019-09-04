@@ -1,6 +1,6 @@
 
-#include "fatfs.h"
-#include "fs.h"
+#include <ygos/fs/fatfs/fatfs.h>
+#include <ygos/fs/fs.h>
 
 extern struct fat_mountpt_s g_fat;
 uint8_t fat_buffer[512];

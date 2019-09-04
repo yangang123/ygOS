@@ -1,5 +1,5 @@
 
-#include "rtos.h"
+#include <ygos/rtos.h>
 
 //当前执行的任务
 struct tcb_s *ygos_tcb_current; 

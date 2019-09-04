@@ -1,5 +1,5 @@
 
-#include "fatfs.h"
+#include <ygos/fs/fatfs/fatfs.h>
 
 int     fat_open( struct file *filep,  const char *relpath,
         int oflags, mode_t mode);

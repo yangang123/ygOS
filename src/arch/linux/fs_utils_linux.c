@@ -1,5 +1,5 @@
 
-#include "fatfs.h"
+#include <ygos/fs/fatfs/fatfs.h>
 
 #define LINUX_SD_DEVICE_NODE_NAME "/dev/sdc"
 

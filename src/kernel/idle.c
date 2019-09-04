@@ -1,5 +1,5 @@
 
-#include "rtos.h"
+#include <ygos/rtos.h>
 
 //空闲任务
 static uint32_t  idle_task_stack[128];

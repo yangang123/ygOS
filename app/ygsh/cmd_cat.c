@@ -1,8 +1,8 @@
 
 
-#include "fs.h"
+#include <ygos/fs/fs.h>
 #include "cmd.h"
-#include "stdio.h"
+#include <ygos/libc/stdio.h>
 
 typedef void (*cmd_handler_t)(char *data, int len, int end);
 

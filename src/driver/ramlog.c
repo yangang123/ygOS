@@ -1,6 +1,6 @@
 
-#include "fs.h"
-#include "ramlog.h"
+#include <ygos/fs/fs.h>
+#include <ygos/driver/ramlog.h>
 
 char  g_ramlog_buf[RAMLOG_BUF_SIZE_MAX] = {0x00};
 
