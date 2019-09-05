@@ -335,7 +335,7 @@
               <MiscControls></MiscControls>
               <Define>STM32F40_41xxx,USE_STDPERIPH_DRIVER,HSE_VALUE=8000000,VECT_TAB_OFFSET=0</Define>
               <Undefine></Undefine>
-              <IncludePath>..\sample\stm32f4_discovery\stm32f4\STM32F4xx_StdPeriph_Driver\inc;..\sample\stm32f4_discovery\stm32f4\CMSIS\DEVICE\ST\STM32F4xx\Include;..\sample\stm32f4_discovery\stm32f4\CMSIS\Include;..\sample\stm32f4_discovery\stm32f40x_v1;..\src</IncludePath>
+              <IncludePath>..\..\src\board\stm32f4_discovery\stm32f4\STM32F4xx_StdPeriph_Driver\inc;..\..\src\board\stm32f4_discovery\stm32f4\CMSIS\DEVICE\ST\STM32F4xx\Include;..\..\src\board\stm32f4_discovery\stm32f4\CMSIS\Include;..\..\src\board\stm32f4_discovery\stm32f40x_v1;..\..\src\include</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -382,27 +382,27 @@
             <File>
               <FileName>misc.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\sample\stm32f4_discovery\stm32f4\STM32F4xx_StdPeriph_Driver\src\misc.c</FilePath>
-            </File>
-            <File>
-              <FileName>stm32f4xx_gpio.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\sample\stm32f4_discovery\stm32f4\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_gpio.c</FilePath>
-            </File>
-            <File>
-              <FileName>startup_stm32f40_41xxx.s</FileName>
-              <FileType>2</FileType>
-              <FilePath>..\sample\stm32f4_discovery\stm32f4\CMSIS\Device\ST\STM32F4xx\Source\Templates\arm\startup_stm32f40_41xxx.s</FilePath>
+              <FilePath>..\..\src\board\stm32f4_discovery\stm32f4\STM32F4xx_StdPeriph_Driver\src\misc.c</FilePath>
             </File>
             <File>
               <FileName>stm32f4xx_tim.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\sample\stm32f4_discovery\stm32f4\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_tim.c</FilePath>
+              <FilePath>..\..\src\board\stm32f4_discovery\stm32f4\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_tim.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f4xx_gpio.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\src\board\stm32f4_discovery\stm32f4\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_gpio.c</FilePath>
             </File>
             <File>
               <FileName>stm32f4xx_rcc.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\sample\stm32f4_discovery\stm32f4\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_rcc.c</FilePath>
+              <FilePath>..\..\src\board\stm32f4_discovery\stm32f4\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_rcc.c</FilePath>
+            </File>
+            <File>
+              <FileName>startup_stm32f40_41xxx.s</FileName>
+              <FileType>2</FileType>
+              <FilePath>..\..\src\board\stm32f4_discovery\stm32f4\CMSIS\Device\ST\STM32F4xx\Source\Templates\arm\startup_stm32f40_41xxx.s</FilePath>
             </File>
           </Files>
         </Group>
@@ -412,27 +412,27 @@
             <File>
               <FileName>bsp_led.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\sample\stm32f4_discovery\stm32f40x_v1\bsp_led.c</FilePath>
+              <FilePath>..\..\src\board\stm32f4_discovery\stm32f40x_v1\bsp_led.c</FilePath>
             </File>
             <File>
               <FileName>main.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\sample\stm32f4_discovery\stm32f40x_v1\main.c</FilePath>
+              <FilePath>..\..\src\board\stm32f4_discovery\stm32f40x_v1\main.c</FilePath>
             </File>
             <File>
               <FileName>stm32f4xx_it.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\sample\stm32f4_discovery\stm32f40x_v1\stm32f4xx_it.c</FilePath>
+              <FilePath>..\..\src\board\stm32f4_discovery\stm32f40x_v1\stm32f4xx_it.c</FilePath>
             </File>
             <File>
               <FileName>system_stm32f4xx.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\sample\stm32f4_discovery\stm32f40x_v1\system_stm32f4xx.c</FilePath>
+              <FilePath>..\..\src\board\stm32f4_discovery\stm32f40x_v1\system_stm32f4xx.c</FilePath>
             </File>
             <File>
               <FileName>timer.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\sample\stm32f4_discovery\stm32f40x_v1\timer.c</FilePath>
+              <FilePath>..\..\src\board\stm32f4_discovery\stm32f40x_v1\timer.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -442,32 +442,22 @@
             <File>
               <FileName>core.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\src\core.c</FilePath>
+              <FilePath>..\..\src\kernel\core.c</FilePath>
             </File>
             <File>
               <FileName>idle.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\src\idle.c</FilePath>
-            </File>
-            <File>
-              <FileName>rtos.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\src\rtos.h</FilePath>
+              <FilePath>..\..\src\kernel\idle.c</FilePath>
             </File>
             <File>
               <FileName>sleep.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\src\sleep.c</FilePath>
+              <FilePath>..\..\src\kernel\sleep.c</FilePath>
             </File>
             <File>
               <FileName>switch.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\src\switch.c</FilePath>
-            </File>
-            <File>
-              <FileName>sem.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\sem.c</FilePath>
+              <FilePath>..\..\src\kernel\switch.c</FilePath>
             </File>
           </Files>
         </Group>
