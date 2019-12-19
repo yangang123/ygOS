@@ -38,12 +38,6 @@ uint8_t ygos_os_runing = 0;
  uint32_t ygos_tick = 0;
 
 
-//触发任务切换
-extern __asm void os_task_switch(void);
-
-//第一次触发任务启动，在系统启动的时候调用
-extern __asm void ygos_start_high_ready(void);
-
 //hash表记录优先级是0~255，第一个1的位置，也就是优先级位置
 const uint8_t bitmap[] =
 {

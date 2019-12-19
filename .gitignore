@@ -34,3 +34,4 @@ RTE_Components.h
 !*/agri_rtk_link_address.sct
 !*/agri_rtk_link_address_fw.sct
 
+*.doc

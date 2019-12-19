@@ -148,4 +148,19 @@ int ygos_sem_wait( sem_t *sem, uint32_t tick);
 //发送信号量
 int ygos_sem_post( sem_t *sem);
 
+#if defined (GCC_BUILD)
+//触发任务切换
+void os_task_switch(void);
+
+//第一次触发任务启动，在系统启动的时候调用
+void ygos_start_high_ready(void);
+
+#else 
+__asm void os_task_switch(void);
+
+//第一次触发任务启动，在系统启动的时候调用
+__asm void ygos_start_high_ready(void);
+#endif 
+
+
 #endif 
