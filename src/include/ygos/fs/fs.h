@@ -6,7 +6,10 @@
 #include <ygos/debug.h>
 #include <ygos/libc/stdint.h>
 
-// #include <string.h>
+#ifndef LINUX
+#include <string.h>
+#endif 
+
 // #include <stdio.h>
 #include <stdbool.h>
 
