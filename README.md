@@ -3,12 +3,22 @@
 ygOS是一款宏内核设计的简约的操作系统,包含任务管理, 任务通信, 设备管理,文件管理，内存管理五大模块，整个代码低于2000行
 
 # 硬件平台
-- linux simulator  
-- mdk simulator     
-- stm32f4discovery 
-- qemu-lm3s6965evb  
-- stm32f1           
 
+## 所有支持硬件平台
+```
+linux simulator  
+mdk simulator     
+stm32f4discovery 
+qemu-lm3s6965evb  
+stm32f1     
+```
+
+## 推荐qemu-lm3s6965evb平台测试
+```
+cd src/board/qemu-lm3s6965evb
+make run
+```
+      
 # 功能说明
 - 线程管理最多支持32个线程
 - 线程调度是完全基于线程优先级的抢占式调度
