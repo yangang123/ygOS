@@ -35,6 +35,7 @@ CFLAGS+=-Ilib/CMSIS/CM3/DeviceSupport/ST/STM32F10x/
 
 CFLAGS+=-I../..//include
 KERNEL_DIR=../../kernel
+ARCH_DIR	=../../arch/arm/armv7-m
 
 #======================================================================#
 #setup system clock
@@ -49,12 +50,12 @@ SRC+=./main.c \
 	./led.c \
 	./systick.c
 
-
 SRC+=$(KERNEL_DIR)/core.c \
 	$(KERNEL_DIR)/idle.c \
 	$(KERNEL_DIR)/sleep.c\
-	$(KERNEL_DIR)/switch_gcc.S
 	
+SRC+=$(ARCH_DIR)/switch_gcc.o \
+	$(ARCH_DIR)/stack.o 
 #======================================================================#
 #STM32 startup file
 STARTUP=lib/CMSIS/CM3/DeviceSupport/ST/STM32F10x/startup/gcc_ride7/startup_stm32f10x_hd.s

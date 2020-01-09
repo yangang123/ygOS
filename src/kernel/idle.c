@@ -18,7 +18,7 @@ static void  idle_task_entry(void *arg)
 void ygos_idle_task_init(void)
 {   
 	//创建空闲任务tcb
-	ygos_tcb_create(IDLE_TASK_PRIO, idle_task_entry, (void*)0, &idle_task_stack[128]);
+	ygos_tcb_create(IDLE_TASK_PRIO, idle_task_entry, (void*)0, &idle_task_stack[127]);
 	ygos_task_ready_add(IDLE_TASK_PRIO);
 }
 	

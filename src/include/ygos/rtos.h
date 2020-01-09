@@ -148,6 +148,9 @@ int ygos_sem_wait( sem_t *sem, uint32_t tick);
 //发送信号量
 int ygos_sem_post( sem_t *sem);
 
+//初始化线程堆栈
+uint32_t *ygos_task_stack_init (void (*task)(void *p_arg), void *p_arg, uint32_t *ptos, int16_t opt);
+
 #if defined (GCC_BUILD)
 //触发任务切换
 void os_task_switch(void);

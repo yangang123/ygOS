@@ -9,13 +9,20 @@ ygOS是一款宏内核设计的简约的操作系统,包含任务管理, 任务�
 linux simulator  
 mdk simulator     
 stm32f4discovery 
-qemu-lm3s6965evb  
+qemu-lm3s6965evb
+qemu-vexpress-a9  
 stm32f1     
 ```
 
 ## 推荐qemu-lm3s6965evb平台测试
 ```
 cd src/board/qemu-lm3s6965evb
+make run
+```
+
+## 推荐qemu-qemu-vexpress-a9 平台测试cortex-a9
+```
+cd src/board/qemu-vexpress-a9 
 make run
 ```
       
@@ -30,7 +37,7 @@ make run
 - 支持VFS文件系统
 - 支持proc虚拟文件系统
 - 支持基于二叉树的驱动设备管理
-
+- 支持cortex-M3, cortex-M4, cortex-A9架构
 # 构建
 
 ## linux平台
@@ -49,12 +56,14 @@ yangang@ubuntu:~/work/ygOS$
 ├── app
 │   ├── platform
 │   └── ygsh
-├── board
-│   ├── mdk_sim
-│   └── stm32f4_discovery
 ├── CMakeLists.txt
 ├── doc
-│   └── kernel_list_graph.png
+│   ├── device_manage.md
+│   ├── file_manage.md
+│   ├── memory_manage.md
+│   ├── resource
+│   ├── task_ipc.md
+│   └── task_manage.md
 ├── project
 │   ├── project-mdk-sim
 │   └── project-stm32f4discovery
@@ -62,12 +71,34 @@ yangang@ubuntu:~/work/ygOS$
 ├── ReleaseNote.md
 └── src
     ├── arch
+    │   ├── arm
+    │   └── linux
+    ├── board
+    │   ├── mdk_sim
+    │   ├── qemu-lm3s6965evb
+    │   ├── qemu-vexpress-a9
+    │   ├── stm32f1
+    │   └── stm32f4_discovery
     ├── driver
+    │   └── ramlog.c
     ├── fs
+    │   ├── deviceNode
+    │   ├── fatfs
+    │   ├── fs_driver.c
+    │   ├── fs_mount.c
+    │   ├── fs_syscall.c
+    │   └── procfs
     ├── include
+    │   └── ygos
     ├── ipc
+    │   └── sem.c
     ├── kernel
+    │   ├── core.c
+    │   ├── idle.c
+    │   └── sleep.c
     └── mm
+        └── malloc.c
+
 
 18 directories, 4 files
 ```
