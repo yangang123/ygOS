@@ -18,7 +18,7 @@ int ygos_sem_wait( sem_t *sem, uint32_t tick)
 {   
     int level;
 
-    ygos_interrupt_disable();   
+    level = ygos_interrupt_disable();   
     if (sem->semcount) {
         //资源减少1，
         sem->semcount--;
@@ -55,7 +55,7 @@ int ygos_sem_post( sem_t *sem)
     int level;
 
     //如果有任务等待当前信号，那么就直接切换任务,不需要加1操作
-    ygos_interrupt_disable(); 
+    level = ygos_interrupt_disable(); 
 
     if (!list_empty(&sem->list)) {
         struct list_head *first = list_get_first(&sem->list);
@@ -88,10 +88,10 @@ int ygos_sem_post( sem_t *sem)
     }
 
     //信号量资源加1
-    ygos_interrupt_disable();   
+    level = ygos_interrupt_disable();   
     sem->semcount++;
-    if (sem->semcount >= 65536) {
-        sem->semcount = 65536;
+    if (sem->semcount >= 65535) {
+        sem->semcount = 65535;
     }
     ygos_interrupt_enable(level);
 

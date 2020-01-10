@@ -63,7 +63,7 @@ struct tcb_s
 struct sem_s
 {   
 	//信号资源
-    volatile int16_t semcount;     
+    volatile uint16_t semcount;     
 
 	//管理信号量循环队列                           
 	struct list_head list;
