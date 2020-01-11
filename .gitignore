@@ -33,5 +33,6 @@ RTE_Components.h
 *.sct
 !*/agri_rtk_link_address.sct
 !*/agri_rtk_link_address_fw.sct
-
+*.elf
+*.dis
 *.doc
