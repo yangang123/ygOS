@@ -12,6 +12,8 @@ stm32f4discovery
 qemu-lm3s6965evb
 qemu-vexpress-a9  
 stm32f1     
+mys-6ull
+qemu-mcimx6ul-evk
 ```
 
 ## 推荐qemu-lm3s6965evb平台测试
@@ -25,6 +27,12 @@ make run
 cd src/board/qemu-vexpress-a9 
 make run
 ```
+
+## 推荐mys-6ull 平台测试cortex-a7 528Mhz主频
+```
+cd src/board/mys-6ull
+make 
+```
       
 # 功能说明
 - 线程管理最多支持32个线程
@@ -37,7 +45,7 @@ make run
 - 支持VFS文件系统
 - 支持proc虚拟文件系统
 - 支持基于二叉树的驱动设备管理
-- 支持cortex-M3, cortex-M4, cortex-A9架构
+- 支持cortex-M3, cortex-M4, cortex-A9, cortex-A7架构
 # 构建
 
 ## linux平台
