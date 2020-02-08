@@ -5,7 +5,7 @@
 .extern ygos_tcb_current
 .extern ygos_tcb_high_ready
 .extern ygos_os_runing
-
+.extern ygos_os_swtich_flag
 
 .global  ygos_interrupt_disable                                     
 .global  ygos_interrupt_enable
@@ -50,13 +50,18 @@ PendSV_Handler:
 	@关闭中断
 	CPSID   I
 	
-    @PSP => RO	
-    MRS     R0, PSP 
-    
     @初始化ygos的时候会初始化PSP为0
-    CMP     R0, #0	
-    BEQ     OS_CPU_PendSVHandler_nosave                  
+    @CMP     R0, #0	
+    @BEQ     OS_CPU_PendSVHandler_nosave              
+
+    LDR     R0, = ygos_os_swtich_flag
+    LDR     R1, [R0] 
+    CMP     R1, #1	
+    BEQ     OS_CPU_PendSVHandler_nosave       
     
+    @PSP => RO	
+    MRS     R0, PSP
+
 	@通过寄存器R4-R11，一共是8个字的寄存器，占用空间是4*8=32byte
     SUBS    R0, R0, #0x20   
     @保存寄存器R4-R11到PSP的地址	
@@ -70,6 +75,10 @@ PendSV_Handler:
     STR     R0, [R1]                                          
 
 OS_CPU_PendSVHandler_nosave:
+    LDR     R0, =ygos_os_swtich_flag                                     
+    MOVS    R1, #0
+    STR    R1, [R0]
+
 	@ygos_prio_current = ygos_prio_hig_ready
     LDR     R0, =ygos_prio_current                                     
     LDR     R1, =ygos_prio_hig_ready
@@ -117,6 +126,11 @@ ygos_start_high_ready:
 	LDR     R0, =ygos_os_runing                                     
     MOVS    R1, #1
     STRB    R1, [R0]
+    
+    LDR     R0, =ygos_os_swtich_flag                                     
+    MOVS    R1, #1
+    STR    R1, [R0]
+    
 	
 	@触发pendsv异常
 	LDR     R0, =NVIC_INT_CTRL                                  
@@ -131,6 +145,23 @@ ygos_start_high_ready:
 	.global os_task_switch
     .type os_task_switch, %function
 os_task_switch:
+	@触发pensv异常
+    LDR     R0, =NVIC_INT_CTRL                              
+    LDR     R1, =NVIC_PENDSV_SET
+    STR     R1, [R0] 
+    BX      LR
+	
+	@防止编译出现警告信息
+	NOP
+
+	.global os_task_switch_to
+    .type os_task_switch_to, %function
+os_task_switch_to:
+
+    LDR     R0, =ygos_os_swtich_flag                                     
+    MOVS    R1, #1
+    STR    R1, [R0]
+
 	@触发pensv异常
     LDR     R0, =NVIC_INT_CTRL                              
     LDR     R1, =NVIC_PENDSV_SET

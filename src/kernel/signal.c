@@ -53,6 +53,19 @@ sighandler_t signal(int signum, sighandler_t handler)
     return NULL;
 }
 
+void ygos_signal_deliver(struct tcb_s * tcb)
+{
+    task1_signal_handler(2);
+    // tcb->stack_ptr = tcb->sig_ret；
+    // // tcb->sig_ret   = NULL;
+    // // tcb
+
+    tcb->stack_ptr=tcb->sig_ret;
+    tcb->sig_ret=NULL;
+    ygos_start_high_ready();
+
+}
+
 //发送信号
 int kill_task(int pid, int signum)
 {   
@@ -68,46 +81,66 @@ int kill_task(int pid, int signum)
     //屏蔽此信号, 挂在到
 
     } else {
-        // 未屏蔽此信号,则立即执行此信号
-        tcb->sig_pending |= sig_pending_set(signum);
-        
-        if(!list_empty(&tcb->signal_list)) {
-            struct sigactq_s* sigact;
-            list_for_each_entry(sigact, &tcb->signal_list, struct sigactq_s, list) {
-                if (sigact->signo == signum) {
-                    if (sigact->handler) {
-                        sigact->handler(signum);
+        // 当前线程和运行线程相等
+        if  (pid == ygos_prio_current) {
+
+            // 未屏蔽此信号,则立即执行此信号
+            tcb->sig_pending |= sig_pending_set(signum);
+            
+            if(!list_empty(&tcb->signal_list)) {
+                struct sigactq_s* sigact;
+                list_for_each_entry(sigact, &tcb->signal_list, struct sigactq_s, list) {
+                    if (sigact->signo == signum) {
+                        if (sigact->handler) {
+                            sigact->handler(signum);
+                        }
+                        break;
                     }
-                    break;
                 }
             }
+        } else {
+            //等待
+            // if (tcb->sig_handler_table[signum]) {
+            //    tcb->sig_handler_table[signum](signum);
+            // }
+
+        //设置信号处理函数为入口函数
+        int level;
+
+	    level = ygos_interrupt_disable();
+
+        //保存当前堆栈的位置
+        tcb->sig_ret = tcb->stack_ptr;
+        uint32_t *stk = ygos_task_stack_init(ygos_signal_deliver, 0, tcb->stack_ptr, 0);
+		tcb->stack_ptr = stk;
+        ygos_interrupt_enable(level);
+        //重新调度一下.
         }
-        
-
-        // // 当前线程和运行线程相等
-        // if  (pid == ygos_prio_current) {
-
-        // //直接运行
-        //     // if (tcb->sig_handler_table[signum]) {
-        //     //    tcb->sig_handler_table[signum](signum);
-        //     // }
-        // } else {
-        // //等待
-        //     // if (tcb->sig_handler_table[signum]) {
-        //     //    tcb->sig_handler_table[signum](signum);
-        //     // }
-        // }
     }
 }
 
-// //屏蔽某信号
-// void sig_mask(int signum)
-// {
-//     tcb->sig_mask |= 1 < signum;
-// }
 
-// //解除某信号
-// void sig_unmask(int signum)
-// {
-//     tcb->sig_mask &= ~(1 < signum);
-// }
+
+//屏蔽某信号
+void ygos_sig_mask(int signum)
+{   
+    struct tcb_s * tcb; 
+    tcb = ygos_tcb_self();
+    if (tcb == NULL) {
+        return;
+    }
+
+    tcb->sig_mask |= 1 < signum;
+}
+
+//解除某信号
+void ygos_sig_unmask(int signum)
+{   
+    struct tcb_s * tcb; 
+    tcb = ygos_tcb_self();
+    if (tcb == NULL) {
+        return;
+    }
+
+    tcb->sig_mask &= ~(1 < signum);
+}

@@ -20,13 +20,26 @@ int task2_flag = 0;
 void task1_signal_handler(int sig)
 {
     DEBUG_LOG("run task1 signal\n");
+	// while(1) {
+
+	// }
 }
+
+void task_signal_handler(int sig)
+{
+    DEBUG_LOG("signal2\n");
+}
+
 
 //任务1入口函数
 void task1_entry(void *arg)
 {   
+	// signal(SIGUSR2,task_signal_handler);
+    // ygos_sig_unmask(SIGUSR2);
+	
 	signal(SIGUSR1,task1_signal_handler);
-
+    ygos_sig_unmask(SIGUSR1);
+	
 	while(1){
 
 		//task1_flag变量200个tick进行翻转
@@ -34,8 +47,8 @@ void task1_entry(void *arg)
 		ygos_sleep_tick(200);
 		task1_flag =0 ;
 		ygos_sleep_tick(200);
+		//kill_task(0, SIGUSR1);
     	DEBUG_LOG("run task1\n");
-		
 	}
 }
 

@@ -39,6 +39,8 @@ uint8_t ygos_os_runing = 0;
 //系统时钟ticks
  uint32_t ygos_tick = 0;
 
+ uint32_t ygos_os_swtich_flag = 0;
+
 
 //hash表记录优先级是0~255，第一个1的位置，也就是优先级位置
 const uint8_t bitmap[] =
