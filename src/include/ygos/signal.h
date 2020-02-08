@@ -1,9 +1,13 @@
 #ifndef _SIGNAL_H
 #define _SIGNAL_H
 
+#include <ygos/list.h>
+
 typedef unsigned long sigset_t;
 
 #define SIG_NUM_MAX 32
+
+#define SIGNAL_TOTAL_NUM_MAX 32 
 
 typedef enum {
 SIGHUP=0,	 
@@ -39,8 +43,17 @@ SIGPWR,
 SIGSYS
 }signal_t;
 
-
 typedef void (*sighandler_t)(int);
+
+struct sigactq_s
+{
+    struct list_head list;
+    int   signo;    
+    sighandler_t handler;
+};
+
 sighandler_t signal(int signum, sighandler_t handler);
 int kill_task(int pid, int signum);
+void ygos_signal_list_init(void);
+
 #endif /* _SIGNAL_H */

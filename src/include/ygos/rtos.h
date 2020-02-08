@@ -72,9 +72,9 @@ struct tcb_s
     uint32_t        *sig_ret; 
      
 	//信号处理函数的表
-    sighandler_t sig_handler_table[SIG_NUM_MAX];  
+    //sighandler_t sig_handler_table[SIG_NUM_MAX]; 
 
-    //void            *si_list;   
+	struct list_head signal_list; 
 };
 
 struct sem_s
