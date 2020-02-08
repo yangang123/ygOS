@@ -2,6 +2,7 @@
 #include <ygos/rtos.h>
 #include "debug.h"
 #include "systick.h"
+// #include <ygos/signal.h>
 
 #define DEBUG_LOG printf_str
 
@@ -16,16 +17,25 @@ uint32_t  task2_stack[TASK2_STATCK_SIZE];
 int task1_flag = 0;
 int task2_flag = 0;
 
+void task1_signal_handler(int sig)
+{
+    DEBUG_LOG("run task1 signal\n");
+}
+
 //任务1入口函数
 void task1_entry(void *arg)
-{
+{   
+	signal(SIGUSR1,task1_signal_handler);
+
 	while(1){
+
 		//task1_flag变量200个tick进行翻转
 		task1_flag =1 ;
 		ygos_sleep_tick(200);
 		task1_flag =0 ;
 		ygos_sleep_tick(200);
-    	DEBUG_LOG("run thread1\n");
+    	DEBUG_LOG("run task1\n");
+		
 	}
 }
 
@@ -38,6 +48,7 @@ void task2_entry(void *arg)
 		ygos_sleep_tick(200);
 		task2_flag =0 ;
 		ygos_sleep_tick(200);
+		kill_task(0, SIGUSR1);
      	DEBUG_LOG("run thread2\n");
 	}
 }

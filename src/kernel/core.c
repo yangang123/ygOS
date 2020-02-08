@@ -1,6 +1,8 @@
 
 #include <ygos/rtos.h>
 
+#define PRIO_VALID(prio) (prio < TASK_NUM_TOTAL_NUM)
+
 //当前执行的任务
 struct tcb_s *ygos_tcb_current; 
 
@@ -95,6 +97,23 @@ void  ygos_tcb_create (int prio, void (*task)(void *p_arg), void *p_arg, uint32_
 	ygos_interrupt_enable(level);
 
 }
+
+//获取任务TCB
+struct tcb_s *  ygos_tcb_get (int prio)                 
+{    
+	if (PRIO_VALID(prio)) {
+			return tcb_prio_table[prio]; 
+	}
+	
+	return NULL;
+}
+
+//获取当前任务TCB
+struct tcb_s *  ygos_tcb_self (void)                 
+{    
+	return ygos_tcb_current;
+}
+
 
 //初始化TCB的空闲链表空间
 static void ygos_tcb_list_init(void)

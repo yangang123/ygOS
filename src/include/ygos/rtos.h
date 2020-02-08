@@ -7,6 +7,8 @@
 #include <ygos/fs/fs.h>
 #include <ygos/list.h>
 
+#include <ygos/signal.h>
+
 //配置任务最大数量
 #define TASK_NUM_MAX                      16
 
@@ -57,7 +59,22 @@ struct tcb_s
 	uint8_t  status;
     
 	//定时等待状态
-	uint8_t wait_status;             
+	uint8_t wait_status;   
+
+    //触发信号，则位置1,如果对应的sig_mask
+	//对应位是0，则执行信号绑定的处理函数
+	sigset_t     sig_pending;
+
+	//信号掩码是1,则屏蔽此信号                       
+    sigset_t     sig_mask;
+
+	//保存当前线程的栈地址                          
+    uint32_t        *sig_ret; 
+     
+	//信号处理函数的表
+    sighandler_t sig_handler_table[SIG_NUM_MAX];  
+
+    //void            *si_list;   
 };
 
 struct sem_s
@@ -117,6 +134,12 @@ void ygos_task_ready_add(int prio);
 
 //当前任务从就绪状态变为未就绪状态，prio表示任务的优先级
 void ygos_task_ready_delete(int prio);
+
+//获取任务TCB
+struct tcb_s *  ygos_tcb_get (int prio);
+
+//获取当前任务TCB
+struct tcb_s *  ygos_tcb_self (void);   
 
 //进入中断服务程序，此函数被调用，更新中断嵌套的级别
 void ygos_interrupt_enter(void);
