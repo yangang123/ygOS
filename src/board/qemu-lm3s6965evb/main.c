@@ -3,7 +3,7 @@
 #include "debug.h"
 #include "systick.h"
 
-#define DEBUG_LOG(...) 
+#define DEBUG_LOG printf_str
 
 #define TASK1_STATCK_SIZE  128 
 #define TASK2_STATCK_SIZE  128 
@@ -27,6 +27,7 @@ void task_signal_handler(int sig)
 //任务1入口函数
 void task1_entry(void *arg)
 {   
+	//注册信号
 	signal(SIGUSR1,task_signal_handler);
  
 	while(1){
@@ -42,13 +43,14 @@ void task1_entry(void *arg)
 //任务2入口函数
 void task2_entry(void *arg)
 { 
-	//test();
 	while(1){
 		//task2_flag变量200个tick进行翻转
 		task2_flag =1 ;
 		ygos_sleep_tick(200);
 		task2_flag =0 ;
 		ygos_sleep_tick(200);
+
+		//发送信号
 		kill_task(0, SIGUSR1);
      	DEBUG_LOG("run thread2\n");
 	}

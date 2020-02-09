@@ -46,6 +46,9 @@ sighandler_t signal(int signum, sighandler_t handler)
         return NULL;
     }
     
+    //这里仅仅是多线程打断, 可以选择互斥锁或者阻塞调度方式进行临界保护,提高系统并行能力
+    int level = ygos_interrupt_disable();
+
     //申请信号内存对象,在free_list中移除,同时把内存对象放到tcb队列中
     struct list_head *first = list_get_first(&ygos_signal_free_list);
     struct sigactq_s* sigact = list_entry(first, struct sigactq_s, list);
@@ -57,17 +60,23 @@ sighandler_t signal(int signum, sighandler_t handler)
     tcb = ygos_tcb_self();
     list_add_tail(first, &tcb->signal_list);
     
+    ygos_interrupt_enable(level);
+
     return NULL;
 }
 
 //分配内存
 struct sigactpending_s*  ygos_signal_action_pending_alloc(void)
-{
+{   
+    int level = ygos_interrupt_disable();
+
     struct list_head *first = list_get_first(&ygos_signal_pending_free_list);
     struct sigactpending_s* sigactpending = list_entry(first, struct sigactpending_s, list);
 
     //ygos_signal_pending_free_list
     list_del_first(&ygos_signal_pending_free_list);
+    
+    ygos_interrupt_enable(level);
 
     return sigactpending;
 }
@@ -75,11 +84,15 @@ struct sigactpending_s*  ygos_signal_action_pending_alloc(void)
 //释放内存
 void ygos_signal_action_pending_free( struct sigactpending_s* pending)
 {   
+    int level = ygos_interrupt_disable();
+
     //从链表中删除
     list_del(&pending->list);
 
     //添加到空闲链表中
     list_add_tail(&pending->list, &ygos_signal_pending_free_list);
+    
+    ygos_interrupt_enable(level);
 }
 
 //信号执行
@@ -92,6 +105,8 @@ void ygos_signal_handler(void)
     }
     
     //遍历执行队列中所有节点
+    int level = ygos_interrupt_disable();
+
     if(!list_empty(&tcb->signal_pending_list)) {
         struct sigactpending_s* sigact_pending;
         list_for_each_entry(sigact_pending, &tcb->signal_pending_list, struct sigactpending_s, list) {
@@ -105,6 +120,7 @@ void ygos_signal_handler(void)
 			
         }
     }
+    ygos_interrupt_enable(level);
 }
 
 //从队列中查找匹配信号值的信号对象
@@ -112,6 +128,8 @@ static struct sigactq_s* ygos_signal_find_action(struct tcb_s * tcb, int signum)
 {   
 	struct sigactq_s* sigact_p = NULL;
 	
+    int level = ygos_interrupt_disable();
+
     if(!list_empty(&tcb->signal_list)) {
         struct sigactq_s* sigact;
         list_for_each_entry(sigact, &tcb->signal_list, struct sigactq_s, list) {
@@ -121,6 +139,7 @@ static struct sigactq_s* ygos_signal_find_action(struct tcb_s * tcb, int signum)
             }
         }
     }
+    ygos_interrupt_enable(level);
 
     return sigact_p;
 }
@@ -219,7 +238,7 @@ void ygos_sig_mask(int signum)
     if (tcb == NULL) {
         return;
     }
-
+    
     tcb->sig_mask |= 1 < signum;
 }
 

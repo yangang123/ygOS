@@ -49,11 +49,7 @@ ygos_interrupt_enable:
 PendSV_Handler:
 	@关闭中断
 	CPSID   I
-	
-    @初始化ygos的时候会初始化PSP为0
-    @CMP     R0, #0	
-    @BEQ     OS_CPU_PendSVHandler_nosave              
-
+	        
     LDR     R0, = ygos_os_swtich_flag
     LDR     R1, [R0] 
     CMP     R1, #1	
@@ -129,7 +125,7 @@ ygos_start_high_ready:
     
     LDR     R0, =ygos_os_swtich_flag                                     
     MOVS    R1, #1
-    STR    R1, [R0]
+    STR     R1, [R0]
     
 	
 	@触发pendsv异常
@@ -160,7 +156,7 @@ os_task_switch_to:
 
     LDR     R0, =ygos_os_swtich_flag                                     
     MOVS    R1, #1
-    STR    R1, [R0]
+    STR     R1, [R0]
 
 	@触发pensv异常
     LDR     R0, =NVIC_INT_CTRL                              
