@@ -1,19 +1,7 @@
 # 信号实现
 
-
 ## 应用接口
 #include <signal.h>
-
-void handle(int signum)
-{
-	printf("我收到了SIGUSR1\n");
-	exit(0);
-}
-int main()
-{
-	signal(SIGUSR1,handle);
-	for(;;);
-}
 
 ### 注册一个信号，指定异常处理函数
 ```c
@@ -36,6 +24,7 @@ void sig_unmask(int signum)
 ```
 ## 内核实现
 
+```c
 //触发信号，则位置1,如果对应的sig_mask
 //对应位是0，则执行信号绑定的处理函数
 rt_sigset_t     sig_pending;
@@ -46,8 +35,9 @@ rt_sigset_t     sig_mask;
 //保存当前线程的栈地址                          
 uint32_t        *sig_ret; 
     
-//信号处理函数的标
-rt_sighandler_t *sig_handler_table[SIG_NUM_MAX];  
+//信号注册
+struct list_head signal_list; 
 
-
-> 如果发出的当前信号，已经被挂载到了队列中，要更新信号的内容
+//待执行信号队列
+struct list_head signal_pending_list;
+```

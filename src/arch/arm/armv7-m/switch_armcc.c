@@ -34,14 +34,20 @@ __asm void PendSV_Handler(void)
 	IMPORT ygos_prio_hig_ready
 	IMPORT ygos_tcb_current
 	IMPORT ygos_tcb_high_ready
+	IMPORT ygos_os_swtich_flag
 	
 	//关闭中断
 	CPSID   I
 	
     //PSP => RO	
-    MRS     R0, PSP 
+    //MRS     R0, PSP 
     //初始化ygos的时候会初始化PSP为0	
-    CBZ     R0, OS_CPU_PendSVHandler_nosave                    
+    LDR     R0, = ygos_os_swtich_flag
+    LDR     R1, [R0] 
+    CMP     R1, #1	
+    BEQ     OS_CPU_PendSVHandler_nosave 
+
+    MRS     R0, PSP
     
 	//通过寄存器R4-R11，一共是8个字的寄存器，占用空间是4*8=32byte
     SUBS    R0, R0, #0x20   
@@ -57,6 +63,10 @@ __asm void PendSV_Handler(void)
 
 //任务切换
 OS_CPU_PendSVHandler_nosave
+    LDR     R0, =ygos_os_swtich_flag                                     
+    MOVS    R1, #0
+    STR     R1, [R0]
+		
 	//ygos_prio_current = ygos_prio_hig_ready
     LDR     R0, =ygos_prio_current                                     
     LDR     R1, =ygos_prio_hig_ready
@@ -93,21 +103,26 @@ OS_CPU_PendSVHandler_nosave
 __asm void ygos_start_high_ready(void)
 {
 	IMPORT ygos_os_runing
+	IMPORT ygos_os_swtich_flag
 	
 	//设置中断优先级为最低
 	LDR     R0, =NVIC_SYSPRI2                                 
     LDR     R1, =NVIC_PENDSV_PRI
     STRB    R1, [R0]
     
-	//PSP = 0
+    //PSP = 0
     MOVS    R0, #0                                             
     MSR     PSP, R0
-	
-	//ygos_os_runing =1
-	LDR     R0, =ygos_os_runing                                     
+
+    //ygos_os_runing =1
+    LDR     R0, =ygos_os_runing                                     
     MOVS    R1, #1
     STRB    R1, [R0]
-	
+
+    LDR     R0, =ygos_os_swtich_flag                                     
+    MOVS    R1, #1
+    STRB    R1, [R0]
+
 	//触发pendsv异常
 	LDR     R0, =NVIC_INT_CTRL                                  
     LDR     R1, =NVIC_PENDSV_SET
@@ -118,6 +133,27 @@ __asm void ygos_start_high_ready(void)
 	//防止编译出现警告信息
 	NOP
 }
+
+__asm void os_task_switch_to(void)
+{
+    IMPORT ygos_os_swtich_flag
+
+    //ygos_os_swtich_flag=1
+    LDR     R0, =ygos_os_swtich_flag                                     
+    MOVS    R1, #1
+    STRB    R1, [R0]
+
+    //触发pendsv异常
+    LDR     R0, =NVIC_INT_CTRL                                  
+    LDR     R1, =NVIC_PENDSV_SET
+    STR     R1, [R0]
+        
+    BX LR
+
+    //防止编译出现警告信息
+    NOP
+}
+
 
 //触发pendsv完成任务切换
 __asm void os_task_switch(void)

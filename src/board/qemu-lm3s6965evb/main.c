@@ -2,9 +2,8 @@
 #include <ygos/rtos.h>
 #include "debug.h"
 #include "systick.h"
-// #include <ygos/signal.h>
 
-#define DEBUG_LOG printf_str
+#define DEBUG_LOG(...) 
 
 #define TASK1_STATCK_SIZE  128 
 #define TASK2_STATCK_SIZE  128 
@@ -17,44 +16,33 @@ uint32_t  task2_stack[TASK2_STATCK_SIZE];
 int task1_flag = 0;
 int task2_flag = 0;
 
-void task1_signal_handler(int sig)
-{
-    DEBUG_LOG("run task1 signal\n");
-	// while(1) {
-
-	// }
-}
+int handler_count = 0;
 
 void task_signal_handler(int sig)
 {
-    DEBUG_LOG("signal2\n");
+    DEBUG_LOG("run task1 signal\n");
+	handler_count++;
 }
-
 
 //任务1入口函数
 void task1_entry(void *arg)
 {   
-	// signal(SIGUSR2,task_signal_handler);
-    // ygos_sig_unmask(SIGUSR2);
-	
-	signal(SIGUSR1,task1_signal_handler);
-    ygos_sig_unmask(SIGUSR1);
-	
+	signal(SIGUSR1,task_signal_handler);
+ 
 	while(1){
-
 		//task1_flag变量200个tick进行翻转
 		task1_flag =1 ;
 		ygos_sleep_tick(200);
 		task1_flag =0 ;
 		ygos_sleep_tick(200);
-		//kill_task(0, SIGUSR1);
     	DEBUG_LOG("run task1\n");
 	}
 }
 
 //任务2入口函数
 void task2_entry(void *arg)
-{
+{ 
+	//test();
 	while(1){
 		//task2_flag变量200个tick进行翻转
 		task2_flag =1 ;

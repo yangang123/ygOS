@@ -70,11 +70,12 @@ struct tcb_s
 
 	//保存当前线程的栈地址                          
     uint32_t        *sig_ret; 
-     
-	//信号处理函数的表
-    //sighandler_t sig_handler_table[SIG_NUM_MAX]; 
-
+    
+	//信号注册
 	struct list_head signal_list; 
+
+    //待执行信号队列
+	struct list_head signal_pending_list;
 };
 
 struct sem_s
@@ -183,6 +184,9 @@ void ygos_start_high_ready(void);
 
 #else 
 __asm void os_task_switch(void);
+
+//调度到任务
+__asm void os_task_switch_to(void);
 
 //第一次触发任务启动，在系统启动的时候调用
 __asm void ygos_start_high_ready(void);
