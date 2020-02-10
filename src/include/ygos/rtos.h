@@ -41,41 +41,39 @@ struct filelist;
 struct tcb_s
 {  
 	//栈地址
-	uint32_t 		*stack_ptr;
+	uint32_t*			stack_ptr;
 	
 	//多线程共享资源
-	struct filelist tg_filelist;
+	struct filelist 	tg_filelist;
     
 	//管理tcb任务循环队列
-	struct list_head list;
+	struct list_head 	list;
     
 	//任务优先级, 0是最高优先级
-	int8_t 			prio;
+	int8_t 				prio;
     
 	//任务休眠ticks
-	uint32_t        sleep_tick;    
+	uint32_t        	sleep_tick;    
     
 	//任务状态
-	uint8_t  status;
+	uint8_t  			status;
     
 	//定时等待状态
-	uint8_t wait_status;   
+	uint8_t 			wait_status;   
 
-    //触发信号，则位置1,如果对应的sig_mask
-	//对应位是0，则执行信号绑定的处理函数
-	sigset_t     sig_pending;
-
+#ifdef YGOS_SIGNAL_ENABLE 
 	//信号掩码是1,则屏蔽此信号                       
-    sigset_t     sig_mask;
+	sigset_t     		sig_mask;
 
 	//保存当前线程的栈地址                          
-    uint32_t        *sig_ret; 
+	uint32_t*			sig_ret; 
     
 	//信号注册
-	struct list_head signal_list; 
+	struct list_head 	signal_list; 
 
     //待执行信号队列
-	struct list_head signal_pending_list;
+	struct list_head 	signal_pending_list;
+#endif
 };
 
 struct sem_s
@@ -178,6 +176,9 @@ uint32_t *ygos_task_stack_init (void (*task)(void *p_arg), void *p_arg, uint32_t
 #if defined (GCC_BUILD)
 //触发任务切换
 void os_task_switch(void);
+
+//调度到任务
+void os_task_switch_to(void);
 
 //第一次触发任务启动，在系统启动的时候调用
 void ygos_start_high_ready(void);

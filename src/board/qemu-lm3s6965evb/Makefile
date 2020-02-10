@@ -12,7 +12,7 @@ LDFLAGS	:= 	-g
 objs 	:= 	vector.o main.o debug.o systick.o
 
 # os 部分
-CFLAGS		+=-D GCC_BUILD
+CFLAGS		+=-D GCC_BUILD -D YGOS_SIGNAL_ENABLE
 CFLAGS		+=-I../../include
 KERNEL_DIR	=../../kernel
 IPC_DIR	=../../ipc

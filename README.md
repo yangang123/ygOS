@@ -66,6 +66,7 @@ $ ./download /dev/sdb
 - 支持VFS文件系统
 - 支持proc虚拟文件系统
 - 支持基于二叉树的驱动设备管理
+- 支持信号异步通信
 - 支持cortex-M3, cortex-M4, cortex-A9, cortex-A7架构
 # 构建
 
@@ -104,7 +105,9 @@ yangang@ubuntu:~/work/ygOS$
     │   └── linux
     ├── board
     │   ├── mdk_sim
+    │   ├── mys-6ull
     │   ├── qemu-lm3s6965evb
+    │   ├── qemu-mcimx6ul-evk
     │   ├── qemu-vexpress-a9
     │   ├── stm32f1
     │   └── stm32f4_discovery
@@ -124,10 +127,10 @@ yangang@ubuntu:~/work/ygOS$
     ├── kernel
     │   ├── core.c
     │   ├── idle.c
+    │   ├── signal.c
     │   └── sleep.c
     └── mm
         └── malloc.c
-
 
 18 directories, 4 files
 ```

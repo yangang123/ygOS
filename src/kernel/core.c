@@ -92,11 +92,11 @@ void  ygos_tcb_create (int prio, void (*task)(void *p_arg), void *p_arg, uint32_
 
 		//把当前节点添加到激活链表中
 		list_add_tail(first, &ygos_tcb_list); 
-
+#ifdef YGOS_SIGNAL_ENABLE
 		//初始化信号
 		INIT_LIST_HEAD(&ptcb->signal_list);
 		INIT_LIST_HEAD(&ptcb->signal_pending_list);
-
+#endif 
 		//当前任务初始化为就绪状态
 		ygos_task_ready_add(prio);
 	}
@@ -322,8 +322,10 @@ void  ygos_init (void)
 
 		//空闲任务初始化,空闲任务一直处于就绪状态，优先级最低
 		ygos_idle_task_init();
-        
+
+#ifdef YGOS_SIGNAL_ENABLE       
 		//初始化信号的内存空间
 		ygos_signal_list_init();
+#endif
 	}
 }

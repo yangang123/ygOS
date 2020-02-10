@@ -28,7 +28,7 @@ void task_signal_handler(int sig)
 void task1_entry(void *arg)
 {   
 	//注册信号
-	signal(SIGUSR1,task_signal_handler);
+	ygos_signal(SIGUSR1,task_signal_handler);
  
 	while(1){
 		//task1_flag变量200个tick进行翻转
@@ -51,7 +51,7 @@ void task2_entry(void *arg)
 		ygos_sleep_tick(200);
 
 		//发送信号
-		kill_task(0, SIGUSR1);
+		ygos_kill_task(0, SIGUSR1);
      	DEBUG_LOG("run thread2\n");
 	}
 }

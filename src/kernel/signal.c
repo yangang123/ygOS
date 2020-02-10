@@ -4,14 +4,14 @@
 #define sig_pending_set(sig_no)     (1u << sig_no)
 
 //空闲的信号链表    
-struct list_head ygos_signal_free_list; 
+static struct list_head ygos_signal_free_list; 
 //信号内存空间
-struct sigactq_s signal_table[SIGNAL_TOTAL_NUM_MAX];
+static struct sigactq_s signal_table[SIGNAL_TOTAL_NUM_MAX];
 
 //空闲的信号链表    
-struct list_head ygos_signal_pending_free_list; 
+static struct list_head ygos_signal_pending_free_list; 
 //信号内存空间
-struct sigactpending_s signal_pending_table[SIGNAL_PENDING_TOTAL_NUM_MAX];
+static struct sigactpending_s signal_pending_table[SIGNAL_PENDING_TOTAL_NUM_MAX];
 
 //初始化TCB的空闲链表空间
 void ygos_signal_list_init(void)
@@ -35,7 +35,7 @@ void ygos_signal_list_init(void)
 
 
 //注册一个信号，指定异常处理函数
-sighandler_t signal(int signum, sighandler_t handler)
+sighandler_t ygos_signal(int signum, sighandler_t handler)
 {
     //检查信号是否在范围内
     if ( !(signum < SIG_NUM_MAX) ) {
@@ -66,7 +66,7 @@ sighandler_t signal(int signum, sighandler_t handler)
 }
 
 //分配内存
-struct sigactpending_s*  ygos_signal_action_pending_alloc(void)
+static struct sigactpending_s*  ygos_signal_action_pending_alloc(void)
 {   
     int level = ygos_interrupt_disable();
 
@@ -82,7 +82,7 @@ struct sigactpending_s*  ygos_signal_action_pending_alloc(void)
 }
 
 //释放内存
-void ygos_signal_action_pending_free( struct sigactpending_s* pending)
+static void ygos_signal_action_pending_free( struct sigactpending_s* pending)
 {   
     int level = ygos_interrupt_disable();
 
@@ -96,7 +96,7 @@ void ygos_signal_action_pending_free( struct sigactpending_s* pending)
 }
 
 //信号执行
-void ygos_signal_handler(void)
+static void ygos_signal_handler(void)
 {  
     struct tcb_s * tcb; 
     tcb = ygos_tcb_self();
@@ -178,16 +178,21 @@ static void ygos_signal_deliver(int pid)
     } else {
         int level;
         level = ygos_interrupt_disable();
+
         //保存当前堆栈的位置, 设置信号处理函数为入口函数
         tcb->sig_ret = tcb->stack_ptr;
+
+        //设置异常处理函数为线程新的入口函数,重新初始堆栈
         uint32_t *stk = ygos_task_stack_init(ygos_signal_deliver_entry, 0, tcb->stack_ptr, 0);
+        
+        //设置新的堆栈位置
         tcb->stack_ptr = stk;
         ygos_interrupt_enable(level);
     }
 }
 
 //发送信号
-int kill_task(int pid, int signum)
+int ygos_kill_task(int pid, int signum)
 {   
     struct tcb_s * tcb; 
     

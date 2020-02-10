@@ -13,6 +13,7 @@
 .global  OS_CPU_PendSVHandler_nosave
 .global  ygos_start_high_ready
 .global  os_task_switch
+.global  os_task_switch_to
 
  	.cpu    cortex-m3
     .fpu    softvfp
