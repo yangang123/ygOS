@@ -5,7 +5,7 @@ include_directories ("${PROJECT_SOURCE_DIR}/app/ygsh"
 "${PROJECT_SOURCE_DIR}/src/include/"
 )
 
-add_definitions(-g -w -Wall -DDEBUG_ON -DSTD_OUT -DLINUX)
+add_definitions(-g -w -Wall -DDEBUG_ON -DSTD_OUT -DLINUX -DGCC_BUILD)
 
 add_executable(ygos 
 	src/fs/deviceNode/fs_inode.c 
