@@ -12,7 +12,7 @@ uint32_t *ygos_task_stack_init (void (*task)(void *p_arg), void *p_arg, uint32_t
 	stk       = ptos;                           
 	
 	//初始化xPSP, PC, LR等寄存器
-    *(--stk)    = (uint32_t)0x01000000uL;            
+    *(stk)    = (uint32_t)0x01000000uL;            
     *(--stk)  = (uint32_t)task;                    
     *(--stk)  = (uint32_t)0;           /* R14 (LR)                                           */
     *(--stk)  = (uint32_t)0x12121212uL;            

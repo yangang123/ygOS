@@ -76,8 +76,8 @@ int main(int argc, char **argv)
 	ygos_init();
 	
     //创建用户任务
-	ygos_tcb_create(0, task1_entry, (void*)0, &task1_stack[TASK1_STATCK_SIZE]);
-	ygos_tcb_create(1, task2_entry, (void*)0, &task2_stack[TASK2_STATCK_SIZE]);
+	ygos_tcb_create(0, task1_entry, (void*)0, &task1_stack[TASK1_STATCK_SIZE-1]);
+	ygos_tcb_create(1, task2_entry, (void*)0, &task2_stack[TASK2_STATCK_SIZE-1]);
 	
 	//操作系统启动，会触发任务调度到最高优先级的任务
 	ygos_start();

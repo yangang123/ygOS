@@ -54,6 +54,9 @@ run: $(objs) ygos.bin
 debug: $(objs) ygos.bin
 	qemu-system-arm -M lm3s6965evb --kernel ygos.bin -serial stdio -s -S
 
+gdb: ygos.elf
+	arm-none-eabi-gdb ygos.elf
+
 move: 
 	@rm build -rf 
 	@mkdir build
