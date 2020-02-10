@@ -1,6 +1,8 @@
 
 #include <ygos/rtos.h>
 
+#define PRIO_VALID(prio) (prio < TASK_NUM_TOTAL_NUM)
+
 //当前执行的任务
 struct tcb_s *ygos_tcb_current; 
 
@@ -36,6 +38,8 @@ uint8_t ygos_os_runing = 0;
 
 //系统时钟ticks
  uint32_t ygos_tick = 0;
+
+ uint32_t ygos_os_swtich_flag = 0;
 
 
 //hash表记录优先级是0~255，第一个1的位置，也就是优先级位置
@@ -89,12 +93,33 @@ void  ygos_tcb_create (int prio, void (*task)(void *p_arg), void *p_arg, uint32_
 		//把当前节点添加到激活链表中
 		list_add_tail(first, &ygos_tcb_list); 
 
+		//初始化信号
+		INIT_LIST_HEAD(&ptcb->signal_list);
+		INIT_LIST_HEAD(&ptcb->signal_pending_list);
+
 		//当前任务初始化为就绪状态
 		ygos_task_ready_add(prio);
 	}
 	ygos_interrupt_enable(level);
 
 }
+
+//获取任务TCB
+struct tcb_s *  ygos_tcb_get (int prio)                 
+{    
+	if (PRIO_VALID(prio)) {
+			return tcb_prio_table[prio]; 
+	}
+	
+	return NULL;
+}
+
+//获取当前任务TCB
+struct tcb_s *  ygos_tcb_self (void)                 
+{    
+	return ygos_tcb_current;
+}
+
 
 //初始化TCB的空闲链表空间
 static void ygos_tcb_list_init(void)
@@ -297,5 +322,8 @@ void  ygos_init (void)
 
 		//空闲任务初始化,空闲任务一直处于就绪状态，优先级最低
 		ygos_idle_task_init();
+        
+		//初始化信号的内存空间
+		ygos_signal_list_init();
 	}
 }

@@ -408,9 +408,19 @@
               <FilePath>..\..\src\ipc\sem.c</FilePath>
             </File>
             <File>
+              <FileName>stack.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\src\arch\arm\armv7-m\stack.c</FilePath>
+            </File>
+            <File>
               <FileName>switch_armcc.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\src\kernel\switch_armcc.c</FilePath>
+              <FilePath>..\..\src\arch\arm\armv7-m\switch_armcc.c</FilePath>
+            </File>
+            <File>
+              <FileName>signal.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\src\kernel\signal.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -582,9 +592,9 @@
           <GroupName>app</GroupName>
           <Files>
             <File>
-              <FileName>malloc_test.c</FileName>
+              <FileName>main.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\app\platform\stm32\malloc_test.c</FilePath>
+              <FilePath>..\..\src\board\qemu-lm3s6965evb\main.c</FilePath>
             </File>
           </Files>
         </Group>

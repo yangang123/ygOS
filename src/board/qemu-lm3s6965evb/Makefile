@@ -24,6 +24,7 @@ objs		+=$(ARCH_DIR)/switch_gcc.o \
 objs		+=$(KERNEL_DIR)/core.o \
 	$(KERNEL_DIR)/idle.o \
 	$(KERNEL_DIR)/sleep.o\
+	$(KERNEL_DIR)/signal.o\
 	$(IPC_DIR)/sem.o
 
 
@@ -35,6 +36,7 @@ object 	+=	$(BUILD_DIR)/debug.o
 object 	+=	$(BUILD_DIR)/systick.o 
 
 object 	+=	$(BUILD_DIR)/core.o 
+object 	+=	$(BUILD_DIR)/signal.o
 object 	+=	$(BUILD_DIR)/idle.o 
 object 	+=	$(BUILD_DIR)/sleep.o 
 object 	+=	$(BUILD_DIR)/sem.o
