@@ -39,11 +39,11 @@ ARM Cortex-A7 内核，运行速度高达 528 MHz。该 系列的每个处理器
 其中包括 16 位 LPDDR2、DDR3、DDR3L、NAND Flash、NOR Flash、eMMC、Quad SPI
 和各种其他接口，用于连接外围设备
 
-<img src="src/board/mys-6ull//doc/mys-6ul.png" width = "300" height = "120" alt="" />
+<img src="src/board/mys-6ull/doc/mys-6ul.png" width = "300" height = "120" alt="" />
 
 ### imx-6ull的LED管脚
 低电平点亮LED, 高电平关闭LED,
-<img src="src/board/mys-6ull//doc/mys-6ull-led.png" width = "650" height = "120" alt="" />
+<img src="src/board/mys-6ull/doc/mys-6ull-led.png" width = "650" height = "120" alt="" />
 
 
 ###  构建过程
@@ -53,7 +53,7 @@ $ make
 $ ./download /dev/sdb 
 ```
 
-<img src="src/board/mys-6ull//doc/mys-ygos.png" width = "480" height = "240" alt="" />
+<img src="src/board/mys-6ull/doc/mys-ygos.png" width = "480" height = "240" alt="" />
       
 # 功能说明
 - 线程管理最多支持32个线程
