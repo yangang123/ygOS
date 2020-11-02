@@ -88,7 +88,6 @@ int ygos_sem_post( sem_t *sem)
     }
 
     //信号量资源加1
-    level = ygos_interrupt_disable();   
     sem->semcount++;
     if (sem->semcount >= 65535) {
         sem->semcount = 65535;
