@@ -199,7 +199,12 @@ void ygos_interrupt_leave(void)
 	ygos_interrupt_nest --;
 	if (ygos_interrupt_nest == 0u) {
 		//任务切换
+#ifndef  RH850_CHIP
 		ygos_sche();
+#else 
+		ygos_sche_new();		
+		ygos_tcb_high_ready  = tcb_prio_table[ygos_prio_hig_ready];
+#endif 
 	}
 	ygos_interrupt_enable(level);
 }
