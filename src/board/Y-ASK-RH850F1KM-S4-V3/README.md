@@ -26,13 +26,16 @@ LINUX
 ## boot.asm文件修改
 
 ### 1. 
+```
 .extern __lowinit
 ++++++++
 .extern _ei_interrupt_common
 .extern _os_task_switch_low
 ++++++++
+```
 
 ### 2. 
+```
 .align	16
 jr32	_Dummy ; FETRAP
 ++++++++
@@ -41,8 +44,10 @@ jr32	_os_task_switch_low ; TRAP0
 ++++++++
 .align	16
 jr32	_Dummy_EI ; TRAP1
+```
 
 ### 3. 
+```
 .offset (0x51*4)
 .dw	#_INTTAUJ0I1
 ++++++++
@@ -51,7 +56,7 @@ jr32	_Dummy_EI ; TRAP1
 ++++++++
 .offset (0x013B*4)
 .dw	#_INTETNB0DATA
-
+```
 ### 4. 直接中断优先级地址
 ```
 .align	16

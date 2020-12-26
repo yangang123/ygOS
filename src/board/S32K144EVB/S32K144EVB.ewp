@@ -333,10 +333,8 @@
                 </option>
                 <option>
                     <name>CCIncludePath2</name>
-                    <state>$PROJ_DIR$\src\user</state>
-                    <state>$PROJ_DIR$\src\driver</state>
-                    <state>$PROJ_DIR$\src\system</state>
-                    <state>D:\software\rtos\ygOS\src\include</state>
+                    <state>$PROJ_DIR$\src</state>
+                    <state>$PROJ_DIR$\..\..\include</state>
                 </option>
                 <option>
                     <name>CCStdIncCheck</name>
@@ -755,7 +753,7 @@
                 </option>
                 <option>
                     <name>IlinkIcfFile</name>
-                    <state>$PROJ_DIR$\src\linker\S32K144_100_ram.icf</state>
+                    <state>$PROJ_DIR$\src\S32K144_100_flash.icf</state>
                 </option>
                 <option>
                     <name>IlinkIcfFileSlave</name>
@@ -2039,42 +2037,15 @@
         </settings>
     </configuration>
     <group>
-        <name>system</name>
+        <name>S32K</name>
         <file>
-            <name>$PROJ_DIR$\src\system\arm_math.h</name>
+            <name>$PROJ_DIR$\src\startup.c</name>
         </file>
         <file>
-            <name>$PROJ_DIR$\src\system\core_cm4.h</name>
+            <name>$PROJ_DIR$\src\startup_S32K144.s</name>
         </file>
         <file>
-            <name>$PROJ_DIR$\src\system\core_cm4_simd.h</name>
-        </file>
-        <file>
-            <name>$PROJ_DIR$\src\system\core_cmFunc.h</name>
-        </file>
-        <file>
-            <name>$PROJ_DIR$\src\system\core_cmInstr.h</name>
-        </file>
-        <file>
-            <name>$PROJ_DIR$\src\system\s32_core_cm4.h</name>
-        </file>
-        <file>
-            <name>$PROJ_DIR$\src\system\S32K144_features.h</name>
-        </file>
-        <file>
-            <name>$PROJ_DIR$\src\system\startup.c</name>
-        </file>
-        <file>
-            <name>$PROJ_DIR$\src\system\startup.h</name>
-        </file>
-        <file>
-            <name>$PROJ_DIR$\src\system\startup_S32K144.s</name>
-        </file>
-        <file>
-            <name>$PROJ_DIR$\src\system\system_S32K144.c</name>
-        </file>
-        <file>
-            <name>$PROJ_DIR$\src\system\system_S32K144.h</name>
+            <name>$PROJ_DIR$\src\system_S32K144.c</name>
         </file>
     </group>
     <group>
