@@ -1,13 +1,11 @@
 .extern _ygos_tcb_current
 .extern _ygos_runing_start
+.extern _INT_OSTM_handler
+
 .public _os_task_switch_low
-.public _ygos_start_high_ready_low
-.public _ygos_interrupt_disable
-.public _ygos_interrupt_enable
 .public _ygos_start_high_ready
 .public _os_task_switch
 .public _ei_interrupt_common 
-.public _INT_OSTM_handler
 
 	.section	".text", text
 	.align	2
@@ -40,13 +38,16 @@ _context_switch_save:
 	st.w  r30,-100[sp]
 	st.w  r1 ,-104[sp]
 	st.w  r2 ,-108[sp]
-	 
+
+	; EIPSW
 	stsr  1,r1
-	st.w  r1,-112[sp]  ; FIPSW
+	st.w  r1,-112[sp]
 	
+	; EIPC
 	stsr  0,r1
-	st.w  r1,-116[sp]  ; EIPC
+	st.w  r1,-116[sp] 
 	
+	;保存29*4=116个寄存器, [SP] = EIPC 
 	movea -116,sp,sp 
     
     MOVHI   highw1(#_ygos_tcb_current),r0,r1           
@@ -58,13 +59,14 @@ _context_switch_save:
 _context_switch_restore:
 	MOVHI   highw1(#_ygos_tcb_current),r0,r1           
 	ld.w    loww(#_ygos_tcb_current)[r1],sp  
-
-	ld.w    0[sp],r2    ; base = r2
-
-	ld.w    0[r2],r1    ; FIPC
+	ld.w    0[sp],r2    
+    
+	; EIPC
+	ld.w    0[r2],r1    
 	ldsr 	r1, 0  
-
-	ld.w    4[r2],r1    ; FIPSW           
+    
+	; EIPSW 
+	ld.w    4[r2],r1              
 	ldsr 	r1, 1
 
 	ld.w    12[r2],r1
@@ -93,20 +95,19 @@ _context_switch_restore:
 	ld.w    104[r2],r8
 	ld.w    108[r2],r7
 	ld.w    112[r2],r6
-
+     
+	;一共是29个寄存器 29*4 = 116
 	mov     r2, sp
-	movea   116, sp ,sp	
+	movea   112, sp ,sp	
+
+	;为LP寄存器做准备
+	movea   4, sp ,sp
+
+	;最后保存r2寄存器
 	ld.w    8[r2],r2
 
 	jmp [lp]
 	
-_ygos_start_high_ready_low:
-    jarl _ygos_runing_start,lp
-    jarl _context_switch_restore, lp
-    dispose 0, lp
-
-    eiret
-
 _os_task_switch_low:
 	prepare lp, 0
 	jarl _context_switch_save, lp
@@ -120,9 +121,12 @@ _ei_interrupt_common:
 	prepare lp, 0
 	
 	jarl _context_switch_save, lp
+    
+	;中断处理
 	jarl _ygos_interrupt_enter,lp
 	jarl _INT_OSTM_handler, lp
 	jarl _ygos_interrupt_leave,lp
+
 	jarl _ygos_task_context_switch,lp
 	jarl _context_switch_restore, lp
 	
@@ -135,5 +139,8 @@ _os_task_switch:
     jmp [lp]
     
 _ygos_start_high_ready:
-    trap 0x10
-    jmp [lp]
+    jarl _ygos_runing_start,lp
+    jarl _context_switch_restore, lp
+    dispose 0, lp
+
+    eiret

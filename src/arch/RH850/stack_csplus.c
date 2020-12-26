@@ -6,6 +6,36 @@ void ygos_task_exit(void)
   
 }
 
+void ygos_runing_start(void)
+{
+	ygos_os_runing  = 1;
+}
+
+void ygos_task_context_switch(void)
+{
+	ygos_prio_current = ygos_prio_hig_ready;
+	ygos_tcb_current  = ygos_tcb_high_ready;
+}
+
+//此接口和编译器有关系，下面是利用CS+编译器
+int ygos_interrupt_disable(void)
+{
+    int value = 0;
+
+    //获取PSW装填值
+    value = __stsr(5);
+    __DI();
+
+    return value;
+}
+
+//此接口和编译器有关系，下面是利用CS+编译器
+void ygos_interrupt_enable(int value)
+{
+    //设置PSW状态值
+    __ldsr(5, value);
+}
+
 //任务堆栈初始胡xPSP, PC, LR, R......
 uint32_t *ygos_task_stack_init(void (*task)(void *p_arg), void *p_arg, uint32_t *ptos, int16_t opt)
 {
@@ -42,34 +72,9 @@ uint32_t *ygos_task_stack_init(void (*task)(void *p_arg), void *p_arg, uint32_t 
     *( --stk ) = ( uint32_t ) 0x30303030;       /* R30 (EP) */
     *( --stk ) = ( uint32_t ) 0x01010101;       /* R1       */
     *( --stk ) = ( uint32_t ) 0x02020202;       /* R2       */
-    *( --stk ) = ( uint32_t ) 0x00010000;  	/* EIPSW    */
+    *( --stk ) = ( uint32_t ) 0x00010000;  	    /* EIPSW   PSW.U0 =1可以访问浮点寄存器,PSW非常重要，请仔细查看bit使用*/
     *( --stk ) = ( uint32_t ) task;           	/* EIPC     */
 
 	return (uint32_t *)stk;
 }
 
-void ygos_runing_start(void)
-{
-	ygos_os_runing  = 1;
-}
-
-void ygos_task_context_switch(void)
-{
-	ygos_prio_current = ygos_prio_hig_ready;
-	ygos_tcb_current  = ygos_tcb_high_ready;
-}
-
-int ygos_interrupt_disable(void)
-{       
-	int value = 0;
-		
-	value = __stsr(5);
-	__DI();
-	
-	return value;
-}
-
-void ygos_interrupt_enable(int value)
-{
-	__ldsr(5, value);
-}

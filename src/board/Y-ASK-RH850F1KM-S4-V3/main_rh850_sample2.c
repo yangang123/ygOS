@@ -1,7 +1,5 @@
 #include <ygos/rtos.h>
 
-
-
 #define TASK1_STATCK_SIZE  128 
 #define TASK2_STATCK_SIZE  128 
 
@@ -13,18 +11,17 @@ uint32_t  task2_stack[TASK2_STATCK_SIZE];
 int task1_flag = 0;
 int task2_flag = 0;
 
+//信号量变量
 sem_t sem_mavlink1;
 sem_t sem_mavlink2;
-extern void R_SYSTEM_TimerStart();
+
 //任务1入口函数
 void task1_entry(void *arg)
 {     
-    R_SYSTEM_TimerStart();
 	while(1){
 		ygos_sleep_tick(5);
 		ygos_sem_post(&sem_mavlink2);
 		task1_flag++;
-
 	}
 }
 
@@ -32,15 +29,15 @@ void task1_entry(void *arg)
 void task2_entry(void *arg)
 {
 	while(1){
-		//task2_flag变量200个tick进行翻转
-		task2_flag++;
 		ygos_sem_wait(&sem_mavlink2, 100);
+		task2_flag++;
 	}
 }
 
-
-void main_rh850(void)
+void main(void)
 {   
+	bsp_init();
+	
     ygos_sem_init(&sem_mavlink1, 0);
 	ygos_sem_init(&sem_mavlink2, 0);
 
